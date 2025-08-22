@@ -1,0 +1,182 @@
+.user-dashboard {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.dashboard-section {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #4A90E2;
+  font-weight: 600;
+}
+
+/* Profile Section */
+.profile-card {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 2rem;
+}
+
+.profile-header {
+  text-align: center;
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, #4A90E2, #357ABD);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 3rem;
+  margin: 0 auto 1rem;
+  box-shadow: 0 4px 8px rgba(74, 144, 226, 0.2);
+}
+
+.profile-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.info-row {
+  display: flex;
+  padding: 1rem;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.info-label {
+  width: 120px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.info-value {
+  color: #2c3e50;
+  flex: 1;
+}
+
+/* KYC Section */
+.kyc-card {
+  text-align: center;
+  padding: 2rem;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.kyc-card.completed {
+  background: #f0f9ff;
+  border: 2px solid #4A90E2;
+}
+
+.kyc-card.pending {
+  background: #fff7ed;
+  border: 2px solid #f59e0b;
+}
+
+.kyc-status h3 {
+  margin: 1rem 0;
+  color: #2c3e50;
+}
+
+.kyc-button {
+  background: #4A90E2;
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 1rem;
+}
+
+/* Loan History Section */
+.loans-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.loan-card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  border: 1px solid #eef2f7;
+  transition: transform 0.2s;
+}
+
+.loan-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.loan-status {
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.loan-status.active {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.loan-amount {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #4A90E2;
+}
+
+.loan-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.no-loans {
+  text-align: center;
+  padding: 3rem;
+  background: #f8fafc;
+  border-radius: 8px;
+  color: #64748b;
+}
+
+@media (max-width: 768px) {
+  .user-dashboard {
+    padding: 1rem;
+  }
+
+  .profile-card {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-section {
+    padding: 1.5rem;
+  }
+
+  .loans-container {
+    grid-template-columns: 1fr;
+  }
+}
