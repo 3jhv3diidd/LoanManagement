@@ -2,6 +2,7 @@ import JSHeader from "@/components/JSHeader";
 import JSHeroSection from "@/components/JSHeroSection";
 import JSLoanTypes from "@/components/JSLoanTypes";
 import Footer from "@/components/Footer";
+import "../index.css";
 
 const Index = () => {
   // Pure JavaScript page initialization
@@ -23,15 +24,13 @@ const Index = () => {
   }
 
     return (
-      <div className="min-h-screen bg-background">
+      <div className="index-root">
         <JSHeader />
-        {/* <AutoCarousel /> */}
         <JSHeroSection />
-      <JSLoanTypes />
-      {/* <TrustSection /> */}
-      <Footer />
-    </div>
-  );
+        <JSLoanTypes />
+        <Footer />
+      </div>
+    );
 };
 
 export default Index;

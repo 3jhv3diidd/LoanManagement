@@ -1,95 +1,144 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
+import "./LoanApplicationForm.css";
 
 const LoanApplicationForm = ({ onSubmit, loanProductId }) => {
-  // Fetch customerId from localStorage (expects { id: ... } in customer object)
-  const [form, setForm] = useState(() => {
-    let customerId = '';
-    try {
-      const customer = localStorage.getItem('customer');
-      if (customer) {
-        const parsed = JSON.parse(customer);
-        customerId = parsed.customerId || '';
-      }
-    } catch (e) {
-      customerId = '';
+  // Extract customerId and customer data from localStorage before useState
+  let customerId = '';
+  let customerData = null;
+  try {
+    const customer = localStorage.getItem('customer');
+    if (customer) {
+      const parsed = JSON.parse(customer);
+      customerId = parsed.customerId || '';
+      customerData = parsed;
     }
-    return {
-      applicationDate: new Date().toISOString().slice(0, 10),
-      approvalStatus: "Pending",
-      loanAmount: "",
-      customerId,
-      loanProductId: loanProductId || "",
-    };
+  } catch (e) {
+    customerId = '';
+    customerData = null;
+  }
+
+  // Check for user and KYC status before showing form
+  const userLocal = localStorage.getItem('user');
+  if (!userLocal) {
+    window.location.href = '/login';
+    return (
+      <div className="loan-form loan-form-warning">
+        <div className="warning-title">Complete Profile to Start Application</div>
+        <div className="warning-desc">Your customer profile is missing. Please complete your profile before applying for a loan.</div>
+      </div>
+    );
+  }
+  if (!customerId) {
+    return (
+      <div className="loan-form loan-form-warning">
+        <div className="warning-title">Complete Profile to Start Application</div>
+        <div className="warning-desc">Your customer profile is missing. Please complete your profile before applying for a loan.</div>
+      </div>
+    );
+  }
+  if (customerData && customerData.kycStatus && customerData.kycStatus.toLowerCase() !== 'verified') {
+    return (
+      <div className="loan-form loan-form-error">
+        <div className="error-title">Complete KYC to Start Application</div>
+        <div className="error-desc">Your KYC is not verified. Please complete your KYC process to apply for a loan.</div>
+      </div>
+    );
+  }
+
+  const [form, setForm] = useState({
+    application_date: new Date().toISOString().slice(0, 10),
+    approval_Status: "PENDING",
+    loan_amount: "",
+    customerId: customerId,
+    loan_product_id: loanProductId || "",
   });
+
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleDateChange = (date) => {
-    setForm((prev) => ({ ...prev, applicationDate: date.toISOString().slice(0, 10) }));
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const payload = {
+      ...form,
+      loan_amount: parseFloat(form.loan_amount), // 👈 Convert string to decimal
+    };
+
+    try {
+      console.log("Sending data:", payload);
+      const response = await axios.post("http://localhost:8080/api/loan-applications/apply", payload);
+      console.log("Loan application submitted:", response.data);
+      if (onSubmit) onSubmit(form); // Call parent to close form immediately
+      setShowSuccess(true); // Show success popup
+      // Optionally, you can reset the form here if needed
+    } catch (error) {
+      console.error("Error submitting loan application:", error.response?.data || error.message);
+    }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (onSubmit) onSubmit(form);
-  };
+  if (showSuccess) {
+    return (
+      <div className="loan-form loan-form-success">
+        <div className="success-title">Application Submitted Successfully!</div>
+        <div className="success-desc">Thank you for applying. We will contact you soon.</div>
+      </div>
+    );
+  }
 
   return (
-    <form className="space-y-4 p-6 bg-white rounded-lg shadow-md border border-gray-200" onSubmit={handleSubmit}>
+    <form className="loan-form" onSubmit={handleSubmit}>
       <div>
-        <label className="block text-sm font-medium mb-1">Application Date</label>
+        <label>Application Date</label>
         <input
           type="date"
-          name="applicationDate"
-          value={form.applicationDate}
+          name="application_date"
+          value={form.application_date}
           onChange={handleChange}
-          className="input input-bordered w-full border border-gray-300 rounded px-3 py-2"
           required
         />
       </div>
       <div>
-        <label className="block text-sm font-medium mb-1">Approval Status</label>
+        <label>Approval Status</label>
         <input
           type="text"
-          name="approvalStatus"
-          value={form.approvalStatus}
+          name="approval_Status"
+          value={form.approval_Status}
           readOnly
-          className="input input-bordered w-full bg-gray-100 border border-gray-300 rounded px-3 py-2"
         />
       </div>
       <div>
-        <label className="block text-sm font-medium mb-1">Loan Amount</label>
+        <label>Loan Amount</label>
         <input
           type="number"
-          name="loanAmount"
-          value={form.loanAmount}
+          name="loan_amount"
+          value={form.loan_amount}
           onChange={handleChange}
-          className="input input-bordered w-full border border-gray-300 rounded px-3 py-2"
           required
         />
       </div>
       <div>
-        <label className="block text-sm font-medium mb-1">Customer ID</label>
+        <label>Customer ID</label>
         <input
           type="text"
-          name="customerId"
+          name="customer_id"
           value={form.customerId}
           onChange={handleChange}
-          className="input input-bordered w-full border border-gray-300 rounded px-3 py-2"
           required
         />
       </div>
       <div>
-        <label className="block text-sm font-medium mb-1">Loan Product ID</label>
+        <label>Loan Product ID</label>
         <input
           type="text"
-          name="loanProductId"
-          value={1452}
+          name="loan_product_id"
+          value={form.loan_product_id}
           onChange={handleChange}
-          className="input input-bordered w-full border border-gray-300 rounded px-3 py-2"
           required
         />
       </div>

@@ -20,6 +20,7 @@ const UserPro = () => {
     panNumber: "",
     aadharNumber: "",
   });
+  const [activeLoans, setActiveLoans] = useState([]);
 
   // Get basic info from localStorage
   const localUser = {
@@ -31,6 +32,7 @@ const UserPro = () => {
   // Automatically call find when page loads
   React.useEffect(() => {
     find();
+    checkLoan();
   }, []);
 
   const find = async () => {
@@ -60,6 +62,21 @@ const UserPro = () => {
       console.error("Error fetching customer:", error);
     }
   };
+
+
+
+  const checkLoan = async () => {
+    try {
+      const storedCustomer = JSON.parse(localStorage.getItem('customer'));
+      if(storedCustomer){
+        const response = await axios.get(`http://localhost:8080/api/loan-applications/checkloans?customer_id=${storedCustomer.customerId}`);
+        setActiveLoans(response.data || []);
+      }
+    }catch(error){
+      setActiveLoans([]);
+      console.error("Error fetching loans:", error);
+    }
+  }
 
   const handleKycRedirect = () => {
     navigate('/kyc-application');
@@ -168,9 +185,11 @@ const UserPro = () => {
             </div>
           </div>
         </div>
-        <button className="kyc-button" onClick={handleProfileFormShow}>
-          Personal History
-        </button>
+        {(!userData || userData.kycStatus?.toLowerCase() !== 'verified') && (
+          <button className="kyc-button" onClick={handleProfileFormShow}>
+            Personal History
+          </button>
+        )}
       </section>
 
       {userData && !showProfileForm ? (
@@ -335,6 +354,31 @@ const UserPro = () => {
           </form>
         </section>
       )}
+
+      {/* Active Loans Section */}
+      <section className="dashboard-section">
+        <h2 className="section-title">Active Loans</h2>
+        <div className="active-loans-card">
+          {activeLoans && activeLoans.length > 0 ? (
+            <ul className="active-loans-list">
+              {activeLoans.map((loan, idx) => (
+                <li key={idx} className="active-loan-item styled-loan-item">
+                  <div className="loan-header">
+                    <span className="loan-type">{loan.loanType || loan.loan_product_id}</span>
+                    <span className={`loan-status ${loan.status || loan.approval_Status}`}>{loan.status || loan.approval_Status}</span>
+                  </div>
+                  <div className="loan-details">
+                    <div><strong>Amount:</strong> <span className="loan-amount">₹{loan.loan_amount}</span></div>
+                    <div><strong>Start Date:</strong> <span className="loan-date">{loan.startDate || loan.application_date}</span></div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="no-active-loans">No active loans</div>
+          )}
+        </div>
+      </section>
     </div>
   );
 };

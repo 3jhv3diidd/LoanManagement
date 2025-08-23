@@ -36,12 +36,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LogOut, User, Settings, CreditCard, FileText, DollarSign, BarChart3, Activity, ClipboardList } from "lucide-react";
 import logo from "@/assets/loanmanage-logo.png";
+import LoanCalculator from "@/components/LoanCalculator.jsx";
+import "./JSHeader.css";
 
 const JSHeader = () => {
   const { isAuthenticated, user, logout } = useAuth();
   const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
   const [selectedLoanType, setSelectedLoanType] = useState("");
+  const [showCalculator, setShowCalculator] = useState(false);
+  const isAdmin = localStorage.getItem('admin');
 
   const loanTypes = [
     {
@@ -99,154 +103,154 @@ const JSHeader = () => {
   };
 
   return (
-    <header className="bg-background border-b border-border">
+    <header className="header">
       {/* Top Bar */}
-      <div className="bg-primary text-primary-foreground py-2">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center text-sm">
-            <div className="flex items-center space-x-6">
-              <div className="flex items-center space-x-2">
-                
-              </div>
-              <div className="flex items-center space-x-2">
-                
-              </div>
-            </div>
-            <div className="flex items-center space-x-2">
-              
-            </div>
+      <div className="header-topbar">
+        <div className="header-topbar-content">
+          <div className="header-topbar-left">
+            <div className="header-topbar-item"></div>
+            <div className="header-topbar-item"></div>
           </div>
+          <div className="header-topbar-right"></div>
         </div>
       </div>
-
       {/* Main Navigation */}
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center space-x-8">
-            <a href="/" className="flex items-center space-x-3">
-              <img src={logo} alt="LoanManage logo - loan management" className="h-10 w-10 rounded-sm shadow-banking" loading="lazy" />
-              <span className="text-2xl font-bold bg-banking-gradient bg-clip-text text-transparent">LoanManage</span>
-            </a>
-            <nav className="hidden md:flex items-center gap-6">
-              <a 
-                href="#loans" 
-                className="text-foreground hover:text-primary transition-colors"
-                onClick={(e) => handleNavClick(e, 'loans')}
-              >
-                Loans
-              </a>
-              <a 
-                href="#about" 
-                className="text-foreground hover:text-primary transition-colors"
-                onClick={(e) => handleNavClick(e, 'about')}
-              >
-                About
-              </a>
-              <a 
-                href="#contact" 
-                className="text-foreground hover:text-primary transition-colors"
-                onClick={(e) => handleNavClick(e, 'contact')}
-              >
-                Contact
-              </a>
-            </nav>
-          </div>
-          
-          <div className="flex items-center space-x-4">
-            <Popover open={searchOpen} onOpenChange={setSearchOpen}>
-              <PopoverTrigger asChild>
-                <div className="relative cursor-pointer" onClick={() => setSearchOpen(true)}>
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                  <input
-                    type="text"
-                    placeholder="Search for loan types..."
-                    className="w-64 h-9 pl-10 pr-4 rounded-md border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                    readOnly
-                  />
-                </div>
-              </PopoverTrigger>
-              <PopoverContent className="w-80 p-0 bg-white border shadow-lg" align="end">
-                <Command>
-                  <CommandInput placeholder="Search for loan types..." />
-                  <CommandList>
-                    <CommandEmpty>No loan types found.</CommandEmpty>
-                    <CommandGroup heading="Available Loan Types">
-                      {loanTypes.map((loan) => (
-                        <CommandItem
-                          key={loan.route}
-                          onSelect={() => {
-                            navigate(loan.route);
-                            setSearchOpen(false);
-                          }}
-                          className="cursor-pointer"
-                        >
-                          <div className="flex flex-col">
-                            <span className="font-medium">{loan.title}</span>
-                            <span className="text-sm text-muted-foreground">{loan.description}</span>
-                          </div>
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </CommandList>
-                </Command>
-              </PopoverContent>
-            </Popover>
-            {isAuthenticated ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                    <Avatar className="h-10 w-10">
-                      <AvatarImage src={user?.avatar} alt={user?.name} />
-                      <AvatarFallback>{user?.name?.charAt(0) || 'U'}</AvatarFallback>
-                    </Avatar>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56 bg-white border shadow-lg" align="end" forceMount>
-                  <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">{user?.name}</p>
-                      <p className="text-xs leading-none text-muted-foreground">
-                        {user?.email}
-                      </p>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem className="cursor-pointer py-2" onClick={() => navigate('/profile')}>
-                    <User className="mr-3 h-4 w-4" />
-                    <span>Profile</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer py-2" >
-                    <CreditCard className="mr-3 h-4 w-4" />
-                    <span>Loan Repayment</span>
-                  </DropdownMenuItem>
-                  
-                  
-                  
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleLogout} className="cursor-pointer py-2">
-                    <LogOut className="mr-3 h-4 w-4" />
-                    <span>Log out</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <>
-                <Button 
-                  variant="outline" 
-                  onClick={handleLoginClick}
-                  className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
-                >
-                  Login
-                </Button>
-                <Button 
-                  onClick={handleRegisterClick}
-                  className="bg-banking-gradient hover:opacity-90 shadow-banking"
-                >
-                  Register
-                </Button>
-              </>
+      <div className="header-main">
+        <div className="header-logo">
+          <a href="/" className="header-logo-link">
+            <img src={logo} alt="LoanManage logo - loan management" className="header-logo-img" loading="lazy" />
+            <span className="header-logo-title">LoanManage</span>
+          </a>
+        </div>
+        <nav className="header-nav">
+          <a href="#loans" className="header-nav-link" onClick={(e) => handleNavClick(e, 'loans')}>Loans</a>
+          <a href="#about" className="header-nav-link" onClick={(e) => handleNavClick(e, 'about')}>About</a>
+          <a href="#contact" className="header-nav-link" onClick={(e) => handleNavClick(e, 'contact')}>Contact</a>
+          <div className="header-loan-calculator-dropdown-wrapper">
+            <button className="header-loan-calculator-btn" onClick={() => setShowCalculator(true)}>
+              Loan Calculator
+            </button>
+            {showCalculator && (
+              <div className="header-loan-calculator-dropdown">
+                <button className="close-calculator-btn" onClick={() => setShowCalculator(false)}>Close</button>
+                <LoanCalculator />
+              </div>
             )}
           </div>
+        </nav>
+        <div className="header-actions">
+          <Popover open={searchOpen} onOpenChange={setSearchOpen}>
+            <PopoverTrigger asChild>
+              <div className="header-search" onClick={() => setSearchOpen(true)}>
+                <Search className="header-search-icon" />
+                <input
+                  type="text"
+                  placeholder="Search for loan types..."
+                  className="header-search-input"
+                  readOnly
+                />
+              </div>
+            </PopoverTrigger>
+            <PopoverContent className="header-search-content" align="end">
+              <Command>
+                <CommandInput placeholder="Search for loan types..." />
+                <CommandList>
+                  <CommandEmpty>No loan types found.</CommandEmpty>
+                  <CommandGroup heading="Available Loan Types">
+                    {loanTypes.map((loan) => (
+                      <CommandItem
+                        key={loan.route}
+                        onSelect={() => {
+                          navigate(loan.route);
+                          setSearchOpen(false);
+                        }}
+                        className="header-search-item"
+                      >
+                        <div className="header-search-item-content">
+                          <span className="header-search-item-title">{loan.title}</span>
+                          <span className="header-search-item-description">{loan.description}</span>
+                        </div>
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
+          {isAuthenticated ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="header-avatar-button">
+                  <Avatar className="header-avatar">
+                    <AvatarImage src={user?.avatar} alt={user?.name} />
+                    <AvatarFallback>{user?.name?.charAt(0) || 'U'}</AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="header-dropdown-content" align="end" forceMount>
+                <DropdownMenuLabel className="header-dropdown-label">
+                  <div className="header-dropdown-user-info">
+                    <p className="header-dropdown-user-name">{user?.name}</p>
+                    <p className="header-dropdown-user-email">{user?.email}</p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {isAdmin ? (
+                  <>
+                    <DropdownMenuItem className="header-dropdown-item" onClick={() => navigate('/applied-loans')}>
+                      <ClipboardList className="header-dropdown-icon" />
+                      <span>Applied Loans</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="header-dropdown-item" onClick={() => navigate('/add-loan')}>
+                      <DollarSign className="header-dropdown-icon" />
+                      <span>Add Loan</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="header-dropdown-item" onClick={() => navigate('/add-admin')}>
+                      <User className="header-dropdown-icon" />
+                      <span>Add Admin</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleLogout} className="header-dropdown-item">
+                      <LogOut className="header-dropdown-icon" />
+                      <span>Log out</span>
+                    </DropdownMenuItem>
+                  </>
+                ) : (
+                  <>
+                    <DropdownMenuItem className="header-dropdown-item" onClick={() => navigate('/profile')}>
+                      <User className="header-dropdown-icon" />
+                      <span>Profile</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="header-dropdown-item">
+                      <CreditCard className="header-dropdown-icon" />
+                      <span>Loan Repayment</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleLogout} className="header-dropdown-item">
+                      <LogOut className="header-dropdown-icon" />
+                      <span>Log out</span>
+                    </DropdownMenuItem>
+                  </>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <>
+              <Button 
+                variant="outline" 
+                onClick={handleLoginClick}
+                className="header-login-button"
+              >
+                Login
+              </Button>
+              <Button 
+                onClick={handleRegisterClick}
+                className="header-register-button"
+              >
+                Register
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </header>

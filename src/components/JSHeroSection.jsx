@@ -4,6 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useState } from "react";
 import bankHero from "@/assets/bank-hero.jpg";
+import "./JSHeroSection.css";
 
 const JSHeroSection = () => {
   // Pure JavaScript state management
@@ -104,63 +105,58 @@ const JSHeroSection = () => {
   };
 
   return (
-    <section id="about" className="relative min-h-screen bg-hero-gradient overflow-hidden">
+    <section id="about" className="hero-section">
       {/* Background Image */}
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+        className="hero-bg-image"
         style={{ backgroundImage: `url(${bankHero})` }}
       />
-      
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/70" />
-      
+      <div className="hero-gradient-overlay" />
       {/* Content */}
-      <div className="relative container mx-auto px-4 py-20">
-        <div className="flex justify-center">
-          {/* Main Hero Content */}
-          <div className="text-primary-foreground space-y-6 animate-fade-in text-center max-w-4xl">
-            <h1 className="text-4xl lg:text-5xl font-bold leading-tight">
+      <div className="hero-content-container">
+        <div className="hero-content-center">
+          <div className="hero-main-content">
+            <h1 className="hero-title">
               Professional Banking Solutions
-              <span className="block bg-gold-gradient bg-clip-text text-transparent text-3xl lg:text-4xl mt-2">
+              <span className="hero-title-highlight">
                 Your Trusted Financial Partner
               </span>
             </h1>
-            
-            <p className="text-lg text-primary-foreground/90 leading-relaxed max-w-3xl">
+            <p className="hero-desc">
               Choose our advanced loan banking system for unmatched financial solutions. With over 25 years of excellence, 
               we offer the lowest interest rates in the market, instant digital approvals in under 60 seconds, and 
               flexible repayment options tailored to your lifestyle. Our AI-powered credit assessment ensures fair 
               evaluation, while our 24/7 customer support guarantees you're never alone in your financial journey.
             </p>
-            
-            <div className="bg-primary-foreground/10 backdrop-blur-sm rounded-lg p-6 max-w-3xl">
-              <h3 className="text-xl font-semibold mb-4">Why Choose Our Loan Banking System?</h3>
-              <div className="grid md:grid-cols-2 gap-4 text-sm">
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-accent rounded-full"></div>
+            <div className="hero-features">
+              <h3 className="hero-features-title">Why Choose Our Loan Banking System?</h3>
+              <div className="hero-features-grid">
+                <div className="hero-feature-list">
+                  <div className="hero-feature-row">
+                    <span className="hero-feature-dot"></span>
                     <span>Lowest market rates starting from 2.99% APR</span>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-accent rounded-full"></div>
+                  <div className="hero-feature-row">
+                    <span className="hero-feature-dot"></span>
                     <span>Instant approval with minimal documentation</span>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-accent rounded-full"></div>
+                  <div className="hero-feature-row">
+                    <span className="hero-feature-dot"></span>
                     <span>No hidden fees or prepayment penalties</span>
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-accent rounded-full"></div>
+                <div className="hero-feature-list">
+                  <div className="hero-feature-row">
+                    <span className="hero-feature-dot"></span>
                     <span>Flexible tenure options up to 30 years</span>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-accent rounded-full"></div>
+                  <div className="hero-feature-row">
+                    <span className="hero-feature-dot"></span>
                     <span>Digital-first process with doorstep service</span>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-accent rounded-full"></div>
+                  <div className="hero-feature-row">
+                    <span className="hero-feature-dot"></span>
                     <span>FDIC insured with 99.9% uptime guarantee</span>
                   </div>
                 </div>

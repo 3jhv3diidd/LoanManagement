@@ -9,14 +9,12 @@ import Register from "./pages/Register.jsx";
 import NotFound from "./pages/NotFound";
 import HomeLoans from "./pages/HomeLoans.jsx";
 import Kyc from "./pages/KycApplication.jsx";
-
+import LoanCalculator from "@/components/LoanCalculator.jsx";
 
 import VehicleLoans from "./pages/VehicleLoans.jsx";
 import PersonalLoans from "./pages/PersonalLoans.jsx";
 import UserPro from "./pages/UserPro.jsx";
 import BusinessLoans from "./pages/BusinessLoans.jsx";
-import LoanRepayment from "./pages/LoanRepayment.jsx";
-
 
 const queryClient = new QueryClient();
 
@@ -38,11 +36,11 @@ const App = function() {
             <Route path="/personal-loans" element={<PersonalLoans />} />
             <Route path="/profile" element={<UserPro />} />
             <Route path="/kyc" element={<Kyc />} />
-            
+            <Route path="/loan-calculator" element={<LoanCalculator />} />
             <Route path="/personal-loans/calculator" element={<PersonalLoans />} />
             <Route path="/business-loans" element={<BusinessLoans />} />
             <Route path="/business-loans/calculator" element={<BusinessLoans />} />
-            <Route path="/loan-repayment" element={<LoanRepayment />} />
+            {/* <Route path="/loan-repayment" element={<LoanRepayment />} /> */}
             
             <Route path="*" element={<NotFound />} />
           </Routes>

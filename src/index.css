@@ -112,3 +112,11 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+/* index.css - migrated from Tailwind classes in Index.jsx */
+.index-root {
+  min-height: 100vh;
+  background: #f8fafc; /* matches Tailwind's bg-background */
+  display: flex;
+  flex-direction: column;
+}

@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Home, Car, CreditCard, Building, Percent, Clock, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import "./JSLoanTypes.css";
 
 const JSLoanTypes = () => {
   const navigate = useNavigate();
@@ -56,65 +57,48 @@ const JSLoanTypes = () => {
   };
 
   return (
-    <section className="py-20 bg-muted/50" id="loans">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-foreground mb-4">
-            Loan Solutions for Every Need
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Choose from our comprehensive range of loan products designed to fit your financial goals
-          </p>
-        </div>
-        
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <section className="loan-types-section" id="loans">
+      <div className="loan-types-container">
+        <div className="loan-types-title">Loan Solutions for Every Need</div>
+        <p className="loan-types-desc">
+          Choose from our comprehensive range of loan products designed to fit your financial goals
+        </p>
+        <div className="loan-types-grid">
           {loanTypesData.map(function(loan, index) {
             return (
-              <Card 
-                key={index} 
-                className="group hover:shadow-banking transition-shadow duration-300 border-0 shadow-card cursor-pointer"
-              >
-                <CardHeader className="text-center pb-4">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-banking-gradient rounded-full mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    <loan.icon className="w-8 h-8 text-primary-foreground" />
+              <Card key={index} className="loan-card">
+                <CardHeader className="loan-card-header">
+                  <div className="loan-card-icon">
+                    <loan.icon className="loan-card-icon-svg" />
                   </div>
-                  <CardTitle className="text-xl text-foreground">{loan.title}</CardTitle>
-                  <p className="text-muted-foreground">{loan.description}</p>
+                  <CardTitle className="loan-card-title">{loan.title}</CardTitle>
+                  <p className="loan-card-desc">{loan.description}</p>
                 </CardHeader>
-                
-                <CardContent className="space-y-6">
-                  <div className="text-center">
-                    <div className="flex items-center justify-center space-x-2 mb-2">
-                      <Percent className="w-5 h-5 text-accent" />
-                      <span className="text-3xl font-bold text-primary">{loan.rate}</span>
-                      <span className="text-muted-foreground">APR*</span>
+                <CardContent className="loan-card-content">
+                  <div className="loan-rate-row">
+                    <div className="loan-rate">
+                      <Percent className="loan-rate-icon" />
+                      <span>{loan.rate}</span>
+                      <span className="loan-rate-apr">APR*</span>
                     </div>
-                    <div className="flex items-center justify-center space-x-2 text-sm text-muted-foreground">
-                      <Clock className="w-4 h-4" />
+                    <div className="loan-rate-label">
+                      <Clock className="loan-rate-label-icon" />
                       <span>Starting rate</span>
                     </div>
                   </div>
-                  
-                  <div className="space-y-3">
+                  <div className="loan-features-list">
                     {loan.features.map(function(feature, featureIndex) {
                       return (
-                        <div key={featureIndex} className="flex items-center space-x-3">
-                          <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
-                          <span className="text-sm text-foreground">{feature}</span>
+                        <div key={featureIndex} className="loan-feature-row">
+                          <CheckCircle className="loan-feature-icon" />
+                          <span>{feature}</span>
                         </div>
                       );
                     })}
                   </div>
-                  
                   <Button 
                     onClick={() => handleApplyLoan(loan)}
-                    className="w-full bg-banking-gradient hover:opacity-90 shadow-banking"
-                    onMouseDown={function(e) {
-                      e.currentTarget.style.transform = "scale(0.98)";
-                    }}
-                    onMouseUp={function(e) {
-                      e.currentTarget.style.transform = "scale(1)";
-                    }}
+                    className="loan-apply-btn"
                   >
                     {loan.buttonText}
                   </Button>
@@ -123,12 +107,9 @@ const JSLoanTypes = () => {
             );
           })}
         </div>
-        
-        <div className="text-center mt-12">
-          <p className="text-sm text-muted-foreground">
-            *Annual Percentage Rate (APR). Rates shown are starting rates and may vary based on creditworthiness, 
-            loan amount, and other factors. All loans subject to credit approval.
-          </p>
+        <div className="loan-types-footer">
+          *Annual Percentage Rate (APR). Rates shown are starting rates and may vary based on creditworthiness, 
+          loan amount, and other factors. All loans subject to credit approval.
         </div>
       </div>
     </section>

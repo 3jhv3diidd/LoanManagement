@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import "./LoanCalculator.css";
 
 const loanOptions = [
   { label: "Home Loan", value: "home", defaultRate: 8.5, defaultTerm: 20 },
@@ -14,11 +15,19 @@ function calculateEMI(P, r, n) {
 }
 
 const LoanCalculator = ({ loanType }) => {
-  const selected = loanOptions.find(opt => opt.label === loanType) || loanOptions[0];
+  const [selectedType, setSelectedType] = useState(loanType || loanOptions[0].label);
+  const selected = loanOptions.find(opt => opt.label === selectedType) || loanOptions[0];
   const [amount, setAmount] = useState("");
   const [rate, setRate] = useState(selected.defaultRate);
   const [term, setTerm] = useState(selected.defaultTerm);
   const [result, setResult] = useState(null);
+
+  useEffect(() => {
+    setRate(selected.defaultRate);
+    setTerm(selected.defaultTerm);
+    setAmount("");
+    setResult(null);
+  }, [selectedType]);
 
   const handleClear = () => {
     setAmount("");
@@ -45,65 +54,73 @@ const LoanCalculator = ({ loanType }) => {
   };
 
   return (
-    <div className="loan-calculator p-4 rounded-lg shadow-md bg-white w-full max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4">{selected.label} Calculator</h2>
-      <div className="mb-3">
-        <label className="block mb-1 font-medium">Loan Amount</label>
+    <div className="loan-calculator">
+      <h2>{selected.label} Calculator</h2>
+      <div>
+        <label>Loan Type</label>
+        <select
+          value={selectedType}
+          onChange={e => setSelectedType(e.target.value)}
+        >
+          {loanOptions.map(opt => (
+            <option key={opt.value} value={opt.label}>{opt.label}</option>
+          ))}
+        </select>
+      </div>
+      <div>
+        <label>Loan Amount</label>
         <input
           type="number"
-          className="w-full border rounded px-2 py-1"
           value={amount}
           onChange={e => setAmount(e.target.value)}
           placeholder="Enter amount"
         />
       </div>
-      <div className="mb-3">
-        <label className="block mb-1 font-medium">Interest Rate (%)</label>
+      <div>
+        <label>Interest Rate (%)</label>
         <input
           type="number"
-          className="w-full border rounded px-2 py-1"
           value={rate}
           onChange={e => setRate(e.target.value)}
           placeholder="Interest rate"
         />
       </div>
-      <div className="mb-3">
-        <label className="block mb-1 font-medium">Loan Term (years)</label>
+      <div>
+        <label>Loan Term (years)</label>
         <input
           type="number"
-          className="w-full border rounded px-2 py-1"
           value={term}
           onChange={e => setTerm(e.target.value)}
           placeholder="Loan term in years"
         />
       </div>
-      <div className="flex gap-2 mb-4">
+      <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
         <button
           type="button"
-          className="bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark"
+          className="loan-calculator-btn"
           onClick={handleCalculate}
         >
           Calculate
         </button>
         <button
           type="button"
-          className="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300"
+          className="loan-calculator-clear-btn"
           onClick={handleClear}
         >
           Clear
         </button>
       </div>
       {result && (
-        <div className="mt-4 p-3 border rounded bg-gray-50">
+        <div className="loan-calculator-result">
           {result.error ? (
-            <span className="text-red-500">{result.error}</span>
+            <span className="loan-calculator-error">{result.error}</span>
           ) : (
             <>
-              <div className="mb-2">
-                <span className="font-semibold">Monthly Payment:</span> ₹{result.monthlyPayment}
+              <div style={{ marginBottom: '0.5rem' }}>
+                <span className="loan-calculator-label">Monthly Payment:</span> ₹{result.monthlyPayment}
               </div>
               <div>
-                <span className="font-semibold">Total Interest Paid:</span> ₹{result.totalInterest}
+                <span className="loan-calculator-label">Total Interest Paid:</span> ₹{result.totalInterest}
               </div>
             </>
           )}

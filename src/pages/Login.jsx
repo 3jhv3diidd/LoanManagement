@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -9,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 import logo from "@/assets/loan-logo.png";
+import "./Login.css";
 
 const Login = () => {
   const { login } = useAuth();
@@ -39,77 +39,56 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-accent/20 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md shadow-banking">
-        <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
-            {/* <Link to="/" className="flex items-center space-x-3">
-              <img src={logo} alt="LoanManage logo" className="h-12 w-12 rounded-sm shadow-banking" />
-              <span className="text-2xl font-bold bg-banking-gradient bg-clip-text text-transparent">LoanManage</span>
-            </Link> */}
+    <div className="login-root">
+      <div className="login-card">
+        <div className="login-header">
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
+            {/* Logo and title can be added here if needed */}
           </div>
-          <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
-          <CardDescription>Sign in to your account to continue</CardDescription>
-        </CardHeader>
-
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="username">Email</Label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                <Input
+          <div className="login-title">Welcome Back</div>
+          <div className="login-description">Sign in to your account to continue</div>
+        </div>
+        <div style={{ padding: '1.5rem' }}>
+          <form onSubmit={handleSubmit} className="login-form">
+            <div className="form-group">
+              <label htmlFor="username">Email</label>
+              <div className="input-wrapper">
+                <User className="icon" />
+                <input
                   id="username"
                   type="text"
                   placeholder="Enter username"
-                  className="pl-10"
                   value={formData.username}
-                  onChange={(e) => handleInputChange('username', e.target.value)}
+                  onChange={e => handleInputChange('username', e.target.value)}
                   required
                 />
               </div>
             </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                <Input
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <div className="input-wrapper">
+                <Lock className="icon" />
+                <input
                   id="password"
                   type="password"
                   placeholder="Enter password"
-                  className="pl-10"
                   value={formData.password}
-                  onChange={(e) => handleInputChange('password', e.target.value)}
+                  onChange={e => handleInputChange('password', e.target.value)}
                   required
                 />
               </div>
             </div>
-
-            <div className="flex items-center justify-between text-sm">
-              <Link to="/forgot-password" className="text-primary hover:underline">
-                Forgot password?
-              </Link>
+            <div className="forgot-link">
+              <Link to="/forgot-password">Forgot password?</Link>
             </div>
-
-            <Button type="submit" className="w-full bg-banking-gradient hover:opacity-90 shadow-banking">
-              Sign In
-            </Button>
-
-            <div className="text-center text-sm text-muted-foreground">
-              Don't have an account?{" "}
-              <Link to="/register" className="text-primary hover:underline font-medium">
-                Create one here
-              </Link>
+            <button type="submit" className="submit-btn">Sign In</button>
+            <div className="register-link">
+              Don't have an account?{' '}
+              <Link to="/register">Create one here</Link>
             </div>
-
-            {/* <div className="flex items-center justify-center space-x-2 text-xs text-muted-foreground mt-6">
-              <Shield className="w-4 h-4" />
-              <span>FDIC Insured • Equal Housing Lender</span>
-            </div> */}
           </form>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 };

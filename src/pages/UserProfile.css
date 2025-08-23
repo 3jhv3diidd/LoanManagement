@@ -1,16 +1,20 @@
 .user-dashboard {
-  max-width: 1200px;
-  margin: 2rem auto;
-  padding: 0 2rem;
-  font-family: system-ui, -apple-system, sans-serif;
+  width: 100%;
+  min-width: 0;
+  background: #f8fafc;
+  min-height: 100vh;
+  font-family: 'Inter', Arial, sans-serif;
+  padding: 2rem 0;
 }
 
 .dashboard-section {
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  padding: 2rem;
-  margin-bottom: 2rem;
+  width: 100%;
+  max-width: none;
+  margin: 0 0 2rem 0;
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(30,64,175,0.08);
+  padding: 2rem 2.5rem;
 }
 
 .section-title {
@@ -20,6 +24,10 @@
   padding-bottom: 0.75rem;
   border-bottom: 2px solid #4A90E2;
   font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 1.5rem;
 }
 
 /* Profile Section */
@@ -27,10 +35,31 @@
   display: grid;
   grid-template-columns: 250px 1fr;
   gap: 2rem;
+  background: #f1f5f9;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(30,64,175,0.08);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #e5e7eb;
 }
 
 .profile-header {
   text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.profile-avatar-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: #1e40af;
+  border-radius: 50%;
+  position: relative;
 }
 
 .profile-avatar {
@@ -45,6 +74,29 @@
   font-size: 3rem;
   margin: 0 auto 1rem;
   box-shadow: 0 4px 8px rgba(74, 144, 226, 0.2);
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.avatar-red-dot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  background: red;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 2px #900;
+  z-index: 2;
+  display: inline-block;
 }
 
 .profile-name {
@@ -52,23 +104,41 @@
   font-weight: 600;
   color: #2c3e50;
   margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.profile-details {
+  margin-top: 0.5rem;
 }
 
 .info-row {
   display: flex;
   padding: 1rem;
   border-bottom: 1px solid #eef2f7;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .info-label {
   width: 120px;
   color: #64748b;
   font-weight: 500;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #64748b;
+  min-width: 80px;
 }
 
 .info-value {
   color: #2c3e50;
   flex: 1;
+  font-size: 1rem;
+  color: #334155;
+  font-weight: 500;
 }
 
 /* KYC Section */
@@ -104,6 +174,19 @@
   cursor: pointer;
   transition: all 0.2s;
   margin-top: 1rem;
+  background: linear-gradient(90deg, #3b82f6 0%, #1e40af 100%);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background 0.2s;
+}
+
+.kyc-button:hover {
+  background: linear-gradient(90deg, #1e40af 0%, #3b82f6 100%);
 }
 
 /* Loan History Section */
@@ -128,6 +211,10 @@
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid #eef2f7;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.7rem;
 }
 
 .loan-status {
@@ -135,6 +222,13 @@
   border-radius: 20px;
   font-size: 0.875rem;
   font-weight: 500;
+  padding: 0.25rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  background: #e0e7ff;
+  color: #1e40af;
+  border: 1px solid #c7d2fe;
 }
 
 .loan-status.active {
@@ -146,6 +240,8 @@
   font-size: 1.25rem;
   font-weight: 600;
   color: #4A90E2;
+  font-weight: bold;
+  color: #059669;
 }
 
 .loan-info {
@@ -160,6 +256,67 @@
   padding: 3rem;
   background: #f8fafc;
   border-radius: 8px;
+  color: #64748b;
+}
+
+.styled-loan-item {
+  background: #f1f5f9;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(30,64,175,0.08);
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1.2rem;
+  border: 1px solid #e5e7eb;
+  transition: box-shadow 0.2s;
+}
+.styled-loan-item:hover {
+  box-shadow: 0 4px 16px rgba(30,64,175,0.15);
+}
+.loan-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.7rem;
+}
+.loan-type {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e40af;
+}
+.loan-status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  background: #e0e7ff;
+  color: #1e40af;
+  border: 1px solid #c7d2fe;
+}
+.loan-status.APPROVED, .loan-status.approved {
+  background: #d1fae5;
+  color: #059669;
+  border-color: #059669;
+}
+.loan-status.PENDING, .loan-status.pending {
+  background: #fef9c3;
+  color: #b45309;
+  border-color: #f59e42;
+}
+.loan-status.REJECTED, .loan-status.rejected {
+  background: #fee2e2;
+  color: #b91c1c;
+  border-color: #ef4444;
+}
+.loan-details {
+  display: flex;
+  gap: 2rem;
+  font-size: 1rem;
+  color: #334155;
+}
+.loan-amount {
+  font-weight: bold;
+  color: #059669;
+}
+.loan-date {
   color: #64748b;
 }
 
