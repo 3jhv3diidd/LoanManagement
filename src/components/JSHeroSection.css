@@ -118,7 +118,7 @@
   }
   .hero-features-grid {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 0.5rem;
   }
   .hero-section {
     min-height: 30vh;

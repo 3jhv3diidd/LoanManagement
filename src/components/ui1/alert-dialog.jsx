@@ -1,3 +1,0 @@
-import React from "react";
-import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
-// ...existing code from alert-dialog.tsx, converted to .jsx format...

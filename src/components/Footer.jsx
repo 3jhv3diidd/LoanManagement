@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+// import { Button } from "@/components/ui/button";
+// import { Input } from "@/components/ui/input";
 import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin } from "lucide-react";
 import "./Footer.css";
 

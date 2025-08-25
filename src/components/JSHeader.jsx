@@ -1,13 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { Shield, Phone, Mail, Search } from "lucide-react";
-import {
-  NavigationMenu,
-  NavigationMenuList,
-  NavigationMenuItem,
-  NavigationMenuTrigger,
-  NavigationMenuContent,
-  NavigationMenuLink,
-} from "@/components/ui/navigation-menu";
+
 import {
   Command,
   CommandDialog,
@@ -21,11 +13,10 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from "@/components/ui/popover.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -36,6 +27,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LogOut, User, Settings, CreditCard, FileText, DollarSign, BarChart3, Activity, ClipboardList } from "lucide-react";
 import logo from "@/assets/loanmanage-logo.png";
+import userLogo from "@/assets/user_logo.svg";
 import LoanCalculator from "@/components/LoanCalculator.jsx";
 import "./JSHeader.css";
 
@@ -116,9 +108,9 @@ const JSHeader = () => {
       </div>
       {/* Main Navigation */}
       <div className="header-main">
-        <div className="header-logo">
+        <div className="header-log">
           <a href="/" className="header-logo-link">
-            <img src={logo} alt="LoanManage logo - loan management" className="header-logo-img" loading="lazy" />
+            <img src={logo} alt="LoanManage logo - loan management" className="header-logo-img"  />
             <span className="header-logo-title">LoanManage</span>
           </a>
         </div>
@@ -180,12 +172,14 @@ const JSHeader = () => {
           {isAuthenticated ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="header-avatar-button">
-                  <Avatar className="header-avatar">
-                    <AvatarImage src={user?.avatar} alt={user?.name} />
-                    <AvatarFallback>{user?.name?.charAt(0) || 'U'}</AvatarFallback>
-                  </Avatar>
-                </Button>
+                <button className="header-avatar-button">
+                  <img
+                    src={userLogo}
+                    alt="User Logo"
+                    className="header-avatar"
+                    style={{ borderRadius: "50%", width: "40px", height: "40px", objectFit: "cover" }}
+                  />
+                </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="header-dropdown-content" align="end" forceMount>
                 <DropdownMenuLabel className="header-dropdown-label">
@@ -236,19 +230,20 @@ const JSHeader = () => {
             </DropdownMenu>
           ) : (
             <>
-              <Button 
-                variant="outline" 
+              <button 
+                type="button"
                 onClick={handleLoginClick}
                 className="header-login-button"
               >
                 Login
-              </Button>
-              <Button 
+              </button>
+              <button 
+                type="button"
                 onClick={handleRegisterClick}
                 className="header-register-button"
               >
                 Register
-              </Button>
+              </button>
             </>
           )}
         </div>

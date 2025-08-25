@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card.jsx";
 import { Button } from "@/components/ui/button";
 import { Home, Car, CreditCard, Building, Percent, Clock, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +15,7 @@ const JSLoanTypes = () => {
       description: "Competitive rates for your dream home",
       rate: "7.99%",
       features: ["No down payment options", "First-time buyer programs", "Refinancing available"],
-      buttonText: "Apply for Home Loan",
+      buttonText: "Get Home Loan",
       id: "home",
       route: "/home-loans"
     },
@@ -35,7 +35,7 @@ const JSLoanTypes = () => {
       description: "Unsecured loans loans for any purpose", 
       rate: "9.95%",
       features: ["No collateral required", "Same-day funding", "Fixed monthly payments"],
-      buttonText: "Apply Personal Loan",
+      buttonText: "Get Personal Loan",
       id: "personal",
       route: "/personal-loans"
     },

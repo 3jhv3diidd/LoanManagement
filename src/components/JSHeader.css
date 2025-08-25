@@ -37,15 +37,16 @@
   padding-top: 10px;
   /* border: 2px solid red; */
 }
-.header-logo {
+.header-log {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   height: 48px;
+  /* border: 2px solid red; */
 }
 .header-logo-link {
   display: flex;
-  margin-left: 180px;
+  /* margin-left: 20px; */
   align-items: center;
   gap: 0.5rem;
   height: 48px;
@@ -54,10 +55,11 @@
   height: 40px;
   width: 40px;
   border-radius: 0.25rem;
-  margin-right: 20px;
+  /* margin-right: 20px; */
   box-shadow: 0 2px 8px rgba(30,64,175,0.15);
   object-fit: contain;
   display: block;
+  background: transparent !important;
 }
 .header-logo-title {
   font-size: 2rem;
@@ -77,7 +79,8 @@
   display: flex;
   align-items: center;
   gap: 0rem;
-  margin-left: 4rem;
+  margin-left: 0rem;
+  /* border: 2px solid black; */
 }
 .header-nav .header-loan-calculator-dropdown-wrapper {
   display: flex;
@@ -240,19 +243,45 @@
   height: 1.25rem;
   color: #1e40af;
 }
-.header-login-button {
-  border: 1px solid #1e40af;
-  color: #1e40af;
-  background: none;
-  font-weight: 600;
-  border-radius: 0.5rem;
-  padding: 0.5rem 1.25rem;
-  cursor: pointer;
+.header-login-button,
+.header-register-button,
+.header-avatar-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
   transition: background 0.2s, color 0.2s;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 1.2rem;
+}
+
+.header-login-button {
+  background: #fff;
+  color: #1a237e;
+  border: 1px solid #1a237e;
+  margin-right: 0.5rem;
 }
 .header-login-button:hover {
-  background: #1e40af;
+  background: #e3e6f5;
+}
+
+.header-register-button {
+  background: #1a237e;
   color: #fff;
+  border: 1px solid #1a237e;
+}
+.header-register-button:hover {
+  background: #3949ab;
+}
+
+.header-avatar-button {
+  background: transparent;
+  padding: 0.2rem;
+  border: none;
 }
 .header-register-button {
   background: linear-gradient(90deg, #3b82f6 0%, #1e40af 100%);
