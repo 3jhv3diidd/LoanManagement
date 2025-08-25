@@ -14,91 +14,69 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // Restore session from localStorage
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
-    if (savedUser) {
+    const savedAdmin = localStorage.getItem('admin');
+    if (savedAdmin) {
+      const adminData = JSON.parse(savedAdmin);
+      setUser(adminData);
+      setIsAuthenticated(true);
+    } else if (savedUser) {
       const userData = JSON.parse(savedUser);
       setUser(userData);
       setIsAuthenticated(true);
     }
+    setLoading(false);
   }, []);
 
-  
+  const login = async (username, password) => {
+    try {
+      console.log(username, password);
 
-const login = async (username, password) => {
-  try {
-    console.log(username, password);
-
-    // First attempt: regular user login
-    const response = await axios.post("http://localhost:8080/api/auth/signin", {
-      email: username,
-      password: password,
-    });
-
-    if (response.data && response.data.user) {
-      const userData = response.data.user;
-      setUser(userData);
-      setIsAuthenticated(true);
-      localStorage.setItem("user", JSON.stringify(userData));
-      return { success: true };
-    } else {
-      // Fallback attempt: admin login
-      const adminResponse = await axios.post("http://localhost:8080/api/auth/admin/adminsignin", {
+      // First attempt: regular user login
+      console.log(username,password);
+      const response = await axios.post("http://localhost:8080/api/auth/signin", {
         email: username,
         password: password,
       });
-      console.log(adminResponse.data.admin);
-      if (adminResponse.data && adminResponse.data.admin) {
-        const adminData = adminResponse.data.admin;
-        setUser(adminData);
+
+      if (response.data && response.data.user) {
+        const userData = { ...response.data.user };
+        delete userData.password;
+        setUser(userData);
         setIsAuthenticated(true);
-        alert("Admin");
-        localStorage.setItem("admin", JSON.stringify(adminData));
-        return { success: true, isAdmin: true };
+        localStorage.setItem("user", JSON.stringify(userData));
+        return { success: true };
       } else {
-        return { success: false, message: "Invalid credentials admi" };
+        // Fallback attempt: admin login
+        const adminResponse = await axios.post("http://localhost:8080/api/auth/admin/adminsignin", {
+          email: username,
+          password: password,
+        });
+        let adminData = adminResponse.data.admin;
+        if (adminResponse.data && adminData) {
+          adminData = { ...adminData };
+          delete adminData.password;
+          setUser(adminData);
+          setIsAuthenticated(true);
+          alert("Admin");
+          localStorage.setItem("admin", JSON.stringify(adminData));
+          return { success: true, isAdmin: true };
+        } else {
+          return { success: false, message: "Invalid credentials" };
+        }
       }
+    } catch (error) {
+      console.error("Login error:", error);
+      return {
+        success: false,
+        message: error.response?.data?.message || "Login failed",
+      };
     }
-  } catch (error) {
-    console.error("Login error:", error);
-    return {
-      success: false,
-      message: error.response?.data?.message || "Login failed",
-    };
-  }
-};
-
-
-
-//   const login = async (username, password) => {
-//   try {
-//     console.log(username,password);
-//     const response = await axios.post("http://localhost:8080/api/auth/signin", {
-//       "email":username,
-//       "password":password,
-//     });
-    
-//     // Check if login was successful
-//     if (response.data && response.data.user) {
-//       const userData = response.data.user;
-//       setUser(userData);
-//       setIsAuthenticated(true);
-//       localStorage.setItem("user", JSON.stringify(userData));
-//       return { success: true };
-//     } else {
-//       return { success: false, message: "Invalid credentials" };
-//     }
-//     } catch (error) {
-//     console.error("Login error:", error);
-//     return {
-//       success: false,
-//       message: error.response?.data?.message || "Login failed",
-//     };
-//   }
-// };
-
+  };
 
   const logout = () => {
     setUser(null);
@@ -111,7 +89,10 @@ const login = async (username, password) => {
     isAuthenticated,
     login,
     logout,
+    loading,
   };
+
+  if (loading) return null; // Prevent rendering until user is restored
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

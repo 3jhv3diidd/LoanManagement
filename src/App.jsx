@@ -1,6 +1,3 @@
-// import { Toaster } from "@/components/ui/toaster";
-// import { Toaster as Sonner } from "@/components/ui/sonner";
-// import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index.jsx";
@@ -15,15 +12,15 @@ import VehicleLoans from "./pages/VehicleLoans.jsx";
 import PersonalLoans from "./pages/PersonalLoans.jsx";
 import UserPro from "./pages/UserPro.jsx";
 import BusinessLoans from "./pages/BusinessLoans.jsx";
+import AppliedLoans from "./pages/AppliedLoans.jsx";
+import KycApplication from "./pages/KycApplication.jsx";
 
 const queryClient = new QueryClient();
 
 const App = function() {
   return (
     <QueryClientProvider client={queryClient}>
-      {/* <TooltipProvider> */}
-        {/* <Toaster /> */}
-        {/* <Sonner /> */}
+      
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
@@ -40,6 +37,8 @@ const App = function() {
             <Route path="/personal-loans/calculator" element={<PersonalLoans />} />
             <Route path="/business-loans" element={<BusinessLoans />} />
             <Route path="/business-loans/calculator" element={<BusinessLoans />} />
+            <Route path="/applied-loans" element={<AppliedLoans />} />
+            <Route path="/approve-kyc" element={<KycApplication />} />
             {/* <Route path="/loan-repayment" element={<LoanRepayment />} /> */}
             
             <Route path="*" element={<NotFound />} />

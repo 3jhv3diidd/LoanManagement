@@ -81,7 +81,7 @@ const handleSubmit = async (e) => {
               <div className="form-group">
                 <label htmlFor="firstName">First Name</label>
                 <div className="input-wrapper">
-                  <User className="icon" />
+                  {/* <User className="icon" /> */}
                   <input
                     id="firstName"
                     type="text"
@@ -95,7 +95,7 @@ const handleSubmit = async (e) => {
               <div className="form-group">
                 <label htmlFor="lastName">Last Name</label>
                 <div className="input-wrapper">
-                  <User className="icon" />
+                  {/* <User className="icon" /> */}
                   <input
                     id="lastName"
                     type="text"
@@ -110,7 +110,7 @@ const handleSubmit = async (e) => {
             <div className="form-group">
               <label htmlFor="email">Email Address</label>
               <div className="input-wrapper">
-                <Mail className="icon" />
+                {/* <Mail className="icon" /> */}
                 <input
                   id="email"
                   type="email"
@@ -124,7 +124,7 @@ const handleSubmit = async (e) => {
             <div className="form-group">
               <label htmlFor="phone">Phone Number</label>
               <div className="input-wrapper">
-                <Phone className="icon" />
+                {/* <Phone className="icon" /> */}
                 <input
                   id="phone"
                   type="tel"
@@ -138,7 +138,7 @@ const handleSubmit = async (e) => {
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <div className="input-wrapper">
-                <Lock className="icon" />
+                {/* <Lock className="icon" /> */}
                 <input
                   id="password"
                   type="password"
@@ -152,7 +152,7 @@ const handleSubmit = async (e) => {
             <div className="form-group">
               <label htmlFor="confirmPassword">Confirm Password</label>
               <div className="input-wrapper">
-                <Lock className="icon" />
+                {/* <Lock className="icon" /> */}
                 <input
                   id="confirmPassword"
                   type="password"

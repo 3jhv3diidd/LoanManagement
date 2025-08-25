@@ -1,4 +1,5 @@
 import { Shield, Phone, Mail, Search } from "lucide-react";
+import userLogo from "@/../public/user_logo.svg";
 
 import {
   Command,
@@ -27,7 +28,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LogOut, User, Settings, CreditCard, FileText, DollarSign, BarChart3, Activity, ClipboardList } from "lucide-react";
 import logo from "@/assets/loanmanage-logo.png";
-import userLogo from "@/assets/user_logo.svg";
 import LoanCalculator from "@/components/LoanCalculator.jsx";
 import "./JSHeader.css";
 
@@ -37,7 +37,8 @@ const JSHeader = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [selectedLoanType, setSelectedLoanType] = useState("");
   const [showCalculator, setShowCalculator] = useState(false);
-  const isAdmin = localStorage.getItem('admin');
+  // Check admin status from localStorage
+  const isAdmin = !!localStorage.getItem('admin');
 
   const loanTypes = [
     {
@@ -174,7 +175,7 @@ const JSHeader = () => {
               <DropdownMenuTrigger asChild>
                 <button className="header-avatar-button">
                   <img
-                    src={userLogo}
+                    src={user?.profileImage || userLogo}
                     alt="User Logo"
                     className="header-avatar"
                     style={{ borderRadius: "50%", width: "40px", height: "40px", objectFit: "cover" }}
@@ -202,6 +203,10 @@ const JSHeader = () => {
                     <DropdownMenuItem className="header-dropdown-item" onClick={() => navigate('/add-admin')}>
                       <User className="header-dropdown-icon" />
                       <span>Add Admin</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="header-dropdown-item" onClick={() => navigate('/approve-kyc')}>
+                      <Shield className="header-dropdown-icon" />
+                      <span>Approve KYC</span>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={handleLogout} className="header-dropdown-item">

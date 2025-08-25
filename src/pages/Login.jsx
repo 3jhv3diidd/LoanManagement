@@ -1,9 +1,4 @@
 import { useState } from "react";
-// import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-// import { Input } from "@/components/ui/input";
-// import { Label } from "@/components/ui/label";
-import { Shield, Lock, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
@@ -30,9 +25,8 @@ const Login = () => {
     const result = await login(formData.username, formData.password);
 
     if (result.success) {
-      // console.log(user.username);
       toast.success("Login successful! Welcome back.");
-      navigate('/');
+      window.location.href = '/'; // Force full page reload
     } else {
       toast.error(result.message || "Login failed. Please try again.");
     }
@@ -53,7 +47,7 @@ const Login = () => {
             <div className="form-group">
               <label htmlFor="username">Email</label>
               <div className="input-wrapper">
-                <User className="icon" />
+                {/* <User className="icon" /> */}
                 <input
                   id="username"
                   type="text"
@@ -67,7 +61,7 @@ const Login = () => {
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <div className="input-wrapper">
-                <Lock className="icon" />
+                {/* <Lock className="icon" /> */}
                 <input
                   id="password"
                   type="password"

@@ -4,7 +4,7 @@ import "./UserProfile.css";
 import { useAuth } from '../contexts/AuthContext'
 import axios from "axios";
 const UserPro = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate();1
   const { user, isAuthenticated } = useAuth();
 
   const [userData, setUserData] = useState(null);
@@ -141,15 +141,13 @@ const UserPro = () => {
         phone: formData.phone,
         username: formData.username,
         address: formData.address,
-        panNumber: formData.panNumber,
-        aadharNumber: formData.aadharNumber,
+        pan_number: formData.panNumber,
+        adhar_number: formData.aadharNumber,
         kycStatus: "PENDING" // Use uppercase to match Enum
       });
       if (response.status === 200 || response.status === 201) {
         setUserData({ ...formData, kycStatus: "pending" });
         setShowProfileForm(false);
-        // Redirect to login page after successful registration
-        navigate("/login");
       }
     } catch (error) {
       alert("Failed to save profile. Please try again.");
@@ -185,11 +183,6 @@ const UserPro = () => {
             </div>
           </div>
         </div>
-        {(!userData || userData.kycStatus?.toLowerCase() !== 'verified') && (
-          <button className="kyc-button" onClick={handleProfileFormShow}>
-            Personal History
-          </button>
-        )}
       </section>
 
       {userData && !showProfileForm ? (
@@ -201,6 +194,20 @@ const UserPro = () => {
                 <span className="status-icon">!</span>
                 <h3>KYC Pending</h3>
                 <p>Your KYC is pending. Please update your information if needed.</p>
+                <button className="kyc-button" onClick={handleProfileFormShow}>
+                  Update Information
+                </button>
+              </div>
+            </div>
+          </section>
+        ) : userData.kycStatus?.toLowerCase() === 'rejected' ? (
+          <section className="dashboard-section">
+            <h2 className="section-title">KYC Verification Status</h2>
+            <div className={`kyc-card rejected`}>
+              <div className="kyc-status">
+                <span className="status-icon" style={{color: 'red'}}>✖</span>
+                <h3>KYC Rejected</h3>
+                <p>Your KYC is rejected. Please update your information and resubmit for verification.</p>
                 <button className="kyc-button" onClick={handleProfileFormShow}>
                   Update Information
                 </button>
@@ -350,6 +357,9 @@ const UserPro = () => {
             </div>
             <button className="kyc-button" type="submit">
               Save Profile
+            </button>
+            <button className="kyc-button cancel" type="button" onClick={() => setShowProfileForm(false)}>
+              Cancel
             </button>
           </form>
         </section>
