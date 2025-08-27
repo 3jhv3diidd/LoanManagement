@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./AppliedLoans.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AppliedLoans = () => {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch all applications from backend (no ID or params)
@@ -23,7 +25,11 @@ const AppliedLoans = () => {
 
   return (
     <div className="applied-loans-page">
+      
+        <button className="kyc-button back-home" type="button" onClick={() => navigate("/")}>Back to Home</button>
+   
       <h2 className="applied-loans-title">Customer Applications</h2>
+      
       <div className="applied-loans-list">
         {loading ? (
           <div className="applied-loans-loading">Loading...</div>

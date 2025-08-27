@@ -12,7 +12,7 @@ import "./HomeLoans.css";
 
 const HomeLoans = () => {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const [formData, setFormData] = useState({
     loanAmount: "",
     homeValue: "",
@@ -41,6 +41,9 @@ const HomeLoans = () => {
       setShowLoanForm(true);
     }
   };
+
+  // Determine role from localStorage
+  const isAdmin = Boolean(localStorage.getItem('admin'));
 
   return (
     <div className="home-loans-bg">
@@ -116,27 +119,27 @@ const HomeLoans = () => {
               </div>
             </div>
           </div>
-          <div className="card">
-            <div className="card-header">
-              <div className="card-title">Apply Now</div>
+          {!isAdmin && (
+            <div className="card">
+              <div className="card-header">
+                <div className="card-title">Apply Now</div>
+              </div>
+              <div className="card-content">
+                <p className="apply-description">
+                  Ready to get your home loan? Start your application process today.
+                </p>
+                <Button className="btn-apply" onClick={handleStartApplication}>Start Application</Button>
+                {showLoanForm && (
+                  <div className="application-form">
+                    <LoanApplicationForm
+                      loanProductId={1111}
+                      onSubmit={handleLoanApplicationSubmit}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="card-content">
-              <p className="apply-description">
-                Ready to get your home loan? Start your application process today.
-              </p>
-              <Button className="btn-full" onClick={handleStartApplication}>
-                Start Application
-              </Button>
-              {showLoanForm && (
-                <div className="application-form">
-                  <LoanApplicationForm
-                    loanProductId={1111}
-                    onSubmit={handleLoanApplicationSubmit}
-                  />
-                </div>
-              )}
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

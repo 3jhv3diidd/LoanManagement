@@ -158,6 +158,7 @@ const UserPro = () => {
     <div className="user-dashboard">
       {/* Basic Info from localStorage - always show */}
       <section className="dashboard-section">
+        <button className="kyc-button back-home" type="button" onClick={() => navigate("/")}>Back to Home</button>
         <h2 className="section-title">Basic Information</h2>
         <div className="profile-card">
           <div className="profile-header">

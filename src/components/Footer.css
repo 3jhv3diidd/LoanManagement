@@ -1,109 +1,139 @@
-/* Footer.css - Custom styles migrated from Tailwind classes in Footer.jsx */
+/*  */
 
-.footer {
-  background: #1e40af;
-  color: #fff;
-  width: 100%;
+/* Footer.css - Professional, modern multi-column layout for new-footer */
+
+.new-footer {
+  background: rgb(31, 31, 171);
+  color: #f3f6fa;
+  padding: 0;
+  margin-top: 40px;
+  font-size: 16px;
+  box-shadow: 0 -2px 16px rgba(35,42,54,0.08);
 }
-.footer-main {
+
+.new-footer-main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 4rem 1.5rem;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+  padding: 48px 24px 24px 24px;
 }
-.company-info {
+
+.footer-brand {
+  flex: 1 1 260px;
+  min-width: 220px;
+  margin-right: 32px;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  align-items: flex-start;
 }
-.company-title {
-  font-size: 2rem;
-  font-weight: bold;
-  background: linear-gradient(90deg, #f59e42 0%, #b45309 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
+.footer-logo {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 12px;
+  background: transparent;
 }
-.company-desc {
-  color: rgba(255,255,255,0.8);
-  line-height: 1.7;
+.brand-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #ffd700;
 }
-.contact-info {
+.brand-desc {
+  font-size: 1rem;
+  margin-bottom: 18px;
+  color: #cbd5e1;
+}
+
+.footer-columns {
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  flex: 3 1 600px;
+  gap: 32px;
+  flex-wrap: wrap;
 }
-.contact-row {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  color: #fbbf24;
+.footer-column {
+  min-width: 160px;
+  flex: 1 1 160px;
+  margin-bottom: 24px;
 }
-.loan-products, .resources {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-.footer-title {
-  font-size: 1.25rem;
+.footer-heading {
+  font-size: 1.1rem;
   font-weight: 600;
+  margin-bottom: 12px;
+  color: #ffd700;
 }
-.footer-list {
+.footer-column ul {
   list-style: none;
   padding: 0;
   margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
 }
-.footer-link {
-  color: rgba(255,255,255,0.8);
+.footer-column li {
+  margin-bottom: 8px;
+}
+.footer-column a {
+  color: #f3f6fa;
   text-decoration: none;
   transition: color 0.2s;
 }
-.footer-link:hover {
-  color: #fbbf24;
+.footer-column a:hover {
+  color: #ffd700;
+  text-decoration: underline;
 }
-.footer-bottom {
-  border-top: 1px solid rgba(255,255,255,0.2);
-  padding: 1.5rem 0;
-  background: #1e40af;
-}
-.footer-bottom-content {
-  max-width: 1200px;
-  margin: 0 auto;
+.footer-socials {
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  gap: 12px;
+  margin: 12px 0 8px 0;
+}
+.social-link svg {
+  width: 24px;
+  height: 24px;
+  color: #ffd700;
+  transition: color 0.2s;
+}
+.social-link:hover svg {
+  color: #f3f6fa;
+}
+.footer-address {
+  display: flex;
   align-items: center;
-  justify-content: space-between;
-}
-@media (min-width: 768px) {
-  .footer-main {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .footer-bottom-content {
-    flex-direction: row;
-    gap: 0;
-  }
-}
-.legal-links {
-  display: flex;
-  gap: 2rem;
-}
-.legal-link {
-  color: rgba(255,255,255,0.8);
-  text-decoration: none;
-  font-size: 1rem;
-  transition: color 0.2s;
-}
-.legal-link:hover {
-  color: #fbbf24;
-}
-.copyright {
+  gap: 8px;
   font-size: 0.95rem;
-  color: rgba(255,255,255,0.8);
+  color: #cbd5e1;
+  margin-top: 8px;
+}
+
+.new-footer-bottom {
+  border-top: 1px solid #38404e;
+  padding: 18px 24px;
+  text-align: center;
+  background: #232a36;
+  color: #cbd5e1;
+  font-size: 0.95rem;
+}
+.new-footer-bottom a {
+  color: #ffd700;
+  text-decoration: none;
+  margin: 0 6px;
+}
+.new-footer-bottom a:hover {
+  color: #f3f6fa;
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .new-footer-main {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 32px 12px 12px 12px;
+  }
+  .footer-columns {
+    flex-direction: column;
+    gap: 18px;
+  }
+  .footer-brand {
+    margin-bottom: 24px;
+    margin-right: 0;
+  }
 }

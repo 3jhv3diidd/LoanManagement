@@ -15,6 +15,8 @@
   border-radius: 1rem;
   box-shadow: 0 2px 8px rgba(30,64,175,0.08);
   padding: 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .section-title {
@@ -182,7 +184,6 @@
   padding: 0.75rem 1.5rem;
   cursor: pointer;
   margin-top: 1rem;
-  transition: background 0.2s;
 }
 
 .kyc-button:hover {
@@ -320,6 +321,14 @@
   color: #64748b;
 }
 
+.back-home {
+  position: static !important;
+  margin-bottom: 1.5rem;
+  margin-right: auto;
+  display: block;
+  align-self: flex-start;
+}
+
 @media (max-width: 768px) {
   .user-dashboard {
     padding: 1rem;
@@ -335,5 +344,11 @@
 
   .loans-container {
     grid-template-columns: 1fr;
+  }
+
+  .back-home {
+    width: 100%;
+    margin-bottom: 1rem;
+    margin-right: 0;
   }
 }

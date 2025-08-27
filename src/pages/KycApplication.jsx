@@ -1,27 +1,37 @@
 import React, { useEffect, useState } from "react";
 import "./KycApplication.css";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 const KycApplication = () => {
+  const location = useLocation();
   const [kycApplications, setKycApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch all customers from backend
-    axios.get("http://localhost:8080/api/customers/pending-kyc")
-      .then(res => {
-        setKycApplications(res.data);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError("Failed to fetch customers");
-        setLoading(false);
-      });
-  }, []);
+    if (location.state && location.state.customers) {
+      setKycApplications(location.state.customers);
+      setLoading(false);
+    } else {
+      // Fetch all customers from backend
+      axios.get("http://localhost:8080/api/customers/pending-kyc")
+        .then(res => {
+          setKycApplications(res.data);
+          setLoading(false);
+        })
+        .catch(err => {
+          setError("Failed to fetch customers");
+          setLoading(false);
+        });
+    }
+  }, [location.state]);
 
   return (
     <div className="kyc-app-page">
+      
+        <button className="kyc-button back-home" type="button" onClick={() => window.location.href = "/"}>Back to Home</button>
+    
       <h2 className="kyc-app-title">Customer List</h2>
       <div className="kyc-app-list">
         {loading ? (

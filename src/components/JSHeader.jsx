@@ -133,7 +133,7 @@ const JSHeader = () => {
         </nav>
         <div className="header-actions">
           <Popover open={searchOpen} onOpenChange={setSearchOpen}>
-            <PopoverTrigger asChild>
+            {/* <PopoverTrigger asChild>
               <div className="header-search" onClick={() => setSearchOpen(true)}>
                 <Search className="header-search-icon" />
                 <input
@@ -143,7 +143,7 @@ const JSHeader = () => {
                   readOnly
                 />
               </div>
-            </PopoverTrigger>
+            </PopoverTrigger> */}
             <PopoverContent className="header-search-content" align="end">
               <Command>
                 <CommandInput placeholder="Search for loan types..." />
@@ -196,14 +196,14 @@ const JSHeader = () => {
                       <ClipboardList className="header-dropdown-icon" />
                       <span>Applied Loans</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="header-dropdown-item" onClick={() => navigate('/add-loan')}>
+                    {/* <DropdownMenuItem className="header-dropdown-item" onClick={() => navigate('/add-loan')}>
                       <DollarSign className="header-dropdown-icon" />
                       <span>Add Loan</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="header-dropdown-item" onClick={() => navigate('/add-admin')}>
+                    </DropdownMenuItem> */}
+                    {/* <DropdownMenuItem className="header-dropdown-item" onClick={() => navigate('/add-admin')}>
                       <User className="header-dropdown-icon" />
                       <span>Add Admin</span>
-                    </DropdownMenuItem>
+                    </DropdownMenuItem> */}
                     <DropdownMenuItem className="header-dropdown-item" onClick={() => navigate('/approve-kyc')}>
                       <Shield className="header-dropdown-icon" />
                       <span>Approve KYC</span>

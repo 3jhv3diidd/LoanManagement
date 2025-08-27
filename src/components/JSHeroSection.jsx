@@ -5,101 +5,101 @@ import "./JSHeroSection.css";
 
 const JSHeroSection = () => {
   // Pure JavaScript state management
-  const [formData, setFormData] = useState({
-    loanAmount: "",
-    loanType: "",
-    creditScore: "",
-    annualIncome: ""
-  });
+  // const [formData, setFormData] = useState({
+  //   loanAmount: "",
+  //   loanType: "",
+  //   creditScore: "",
+  //   annualIncome: ""
+  // });
 
-  // Pure JavaScript calculator logic
-  const calculateMonthlyPayment = function(amount, type) {
-    if (!amount || !type) return "---";
+  // // Pure JavaScript calculator logic
+  // const calculateMonthlyPayment = function(amount, type) {
+  //   if (!amount || !type) return "---";
     
-    const principal = parseFloat(amount);
-    const rates = {
-      "home": 0.0299,
-      "auto": 0.0349,
-      "personal": 0.0599,
-      "business": 0.0449
-    };
+  //   const principal = parseFloat(amount);
+  //   const rates = {
+  //     "home": 0.0299,
+  //     "auto": 0.0349,
+  //     "personal": 0.0599,
+  //     "business": 0.0449
+  //   };
     
-    const rate = rates[type] || 0.05;
-    const years = type === "home" ? 30 : type === "auto" ? 5 : 3;
-    const months = years * 12;
+  //   const rate = rates[type] || 0.05;
+  //   const years = type === "home" ? 30 : type === "auto" ? 5 : 3;
+  //   const months = years * 12;
     
-    const monthlyRate = rate / 12;
-    const monthlyPayment = (principal * monthlyRate * Math.pow(1 + monthlyRate, months)) / 
-                          (Math.pow(1 + monthlyRate, months) - 1);
+  //   const monthlyRate = rate / 12;
+  //   const monthlyPayment = (principal * monthlyRate * Math.pow(1 + monthlyRate, months)) / 
+  //                         (Math.pow(1 + monthlyRate, months) - 1);
     
-    return Math.round(monthlyPayment).toLocaleString();
-  };
+  //   return Math.round(monthlyPayment).toLocaleString();
+  // };
 
-  // Pure JavaScript form handlers
-  const handleInputChange = function(field, value) {
-    console.log(`Field ${field} changed to: ${value}`);
-    setFormData(function(prev) {
-      return {
-        ...prev,
-        [field]: value
-      };
-    });
-  };
+  // // Pure JavaScript form handlers
+  // const handleInputChange = function(field, value) {
+  //   console.log(`Field ${field} changed to: ${value}`);
+  //   setFormData(function(prev) {
+  //     return {
+  //       ...prev,
+  //       [field]: value
+  //     };
+  //   });
+  // };
 
-  const handleQuickQuote = function() {
-    console.log("Quick quote calculation:", formData);
+  // const handleQuickQuote = function() {
+  //   console.log("Quick quote calculation:", formData);
     
-    if (!formData.loanAmount || !formData.loanType) {
-      alert("Please fill in loan amount and type to get a quote.");
-      return;
-    }
+  //   if (!formData.loanAmount || !formData.loanType) {
+  //     alert("Please fill in loan amount and type to get a quote.");
+  //     return;
+  //   }
     
-    // Simulate API call with setTimeout
-    const loadingMessage = "Calculating your personalized quote...";
-    console.log(loadingMessage);
+  //   // Simulate API call with setTimeout
+  //   const loadingMessage = "Calculating your personalized quote...";
+  //   console.log(loadingMessage);
     
-    setTimeout(function() {
-      const payment = calculateMonthlyPayment(formData.loanAmount, formData.loanType);
-      const rate = formData.loanType === "home" ? "2.99%" : 
-                   formData.loanType === "auto" ? "3.49%" : 
-                   formData.loanType === "personal" ? "5.99%" : "4.49%";
+  //   setTimeout(function() {
+  //     const payment = calculateMonthlyPayment(formData.loanAmount, formData.loanType);
+  //     const rate = formData.loanType === "home" ? "2.99%" : 
+  //                  formData.loanType === "auto" ? "3.49%" : 
+  //                  formData.loanType === "personal" ? "5.99%" : "4.49%";
       
-      alert(`Your estimated monthly payment: $${payment}\nInterest rate: ${rate} APR\n\nWould you like to proceed with a full application?`);
-    }, 1500);
-  };
+  //     alert(`Your estimated monthly payment: $${payment}\nInterest rate: ${rate} APR\n\nWould you like to proceed with a full application?`);
+  //   }, 1500);
+  // };
 
-  const handleApplyNow = function() {
-    console.log("Apply now clicked with data:", formData);
+  // const handleApplyNow = function() {
+  //   console.log("Apply now clicked with data:", formData);
     
-    // Pure JavaScript form validation
-    const requiredFields = ["loanAmount", "loanType"];
-    const missingFields = requiredFields.filter(function(field) {
-      return !formData[field];
-    });
+  //   // Pure JavaScript form validation
+  //   const requiredFields = ["loanAmount", "loanType"];
+  //   const missingFields = requiredFields.filter(function(field) {
+  //     return !formData[field];
+  //   });
     
-    if (missingFields.length > 0) {
-      alert(`Please complete the following fields: ${missingFields.join(", ")}`);
-      return;
-    }
+  //   if (missingFields.length > 0) {
+  //     alert(`Please complete the following fields: ${missingFields.join(", ")}`);
+  //     return;
+  //   }
     
-    // Simulate application process
-    const steps = [
-      "Validating information...",
-      "Checking credit...", 
-      "Processing application...",
-      "Application submitted successfully!"
-    ];
+  //   // Simulate application process
+  //   const steps = [
+  //     "Validating information...",
+  //     "Checking credit...", 
+  //     "Processing application...",
+  //     "Application submitted successfully!"
+  //   ];
     
-    let currentStep = 0;
-    const interval = setInterval(function() {
-      console.log(steps[currentStep]);
-      if (currentStep === steps.length - 1) {
-        clearInterval(interval);
-        alert("Application submitted! You'll receive a response within 24 hours.");
-      }
-      currentStep++;
-    }, 1000);
-  };
+  //   let currentStep = 0;
+  //   const interval = setInterval(function() {
+  //     console.log(steps[currentStep]);
+  //     if (currentStep === steps.length - 1) {
+  //       clearInterval(interval);
+  //       alert("Application submitted! You'll receive a response within 24 hours.");
+  //     }
+  //     currentStep++;
+  //   }, 1000);
+  // };
 
   return (
     <section id="about" className="hero-section">

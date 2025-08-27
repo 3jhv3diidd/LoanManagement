@@ -12,7 +12,7 @@ import "./BusinessLoans.css";
 
 const BusinessLoans = () => {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const [showLoanForm, setShowLoanForm] = useState(false);
   const [formData, setFormData] = useState({
     loanAmount: "",
@@ -20,6 +20,9 @@ const BusinessLoans = () => {
     loanTerm: "",
     businessAge: ""
   });
+
+  // Determine role from localStorage
+  const isAdmin = Boolean(localStorage.getItem('admin'));
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -47,8 +50,8 @@ const BusinessLoans = () => {
             Back to Home
           </Button>
           <div className="header-flex">
-            <div className="header-logo">
-              <Building className="icon-building" />
+            <div className="header-logo" style={{ color: "white" }}>
+               <FileText className="icon-building"  />
             </div>
             <div>
               <h1 className="header-title">Business Loans</h1>
@@ -139,23 +142,26 @@ const BusinessLoans = () => {
               </div>
             </div>
           </div>
-          <div className="card">
-            <div className="card-header">
-              <div className="card-title">Apply Now</div>
+          {/* Only show Apply Now section if not admin (localStorage check) */}
+          {!localStorage.getItem('admin') && (
+            <div className="card">
+              <div className="card-header">
+                <div className="card-title">Apply Now</div>
+              </div>
+              <div className="card-content">
+                <p className="apply-description">Ready to grow your business? Start your loan application today.</p>
+                <Button className="btn-apply" onClick={handleStartApplication}>Start Application</Button>
+                {showLoanForm && (
+                  <div className="application-form">
+                    <LoanApplicationForm
+                      loanProductId={4444}
+                      onSubmit={handleLoanApplicationSubmit}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="card-content">
-              <p className="apply-description">Ready to grow your business? Start your loan application today.</p>
-              <Button className="btn-apply" onClick={handleStartApplication}>Start Application</Button>
-              {showLoanForm && (
-                <div className="application-form">
-                  <LoanApplicationForm
-                    loanProductId={4444}
-                    onSubmit={handleLoanApplicationSubmit}
-                  />
-                </div>
-              )}
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

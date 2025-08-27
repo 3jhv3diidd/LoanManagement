@@ -12,7 +12,7 @@ import "./VehicleLoans.css";
 
 const VehicleLoans = () => {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const [showLoanForm, setShowLoanForm] = useState(false);
   const [formData, setFormData] = useState({
     loanAmount: "",
@@ -20,6 +20,9 @@ const VehicleLoans = () => {
     loanTerm: "",
     downPayment: ""
   });
+
+  // Determine role from localStorage
+  const isAdmin = Boolean(localStorage.getItem('admin'));
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -165,28 +168,27 @@ const VehicleLoans = () => {
               </div>
             </div>
           </div>
-
-          <div className="card">
-            <div className="card-header">
-              <div className="card-title">Apply Now</div>
+          {!isAdmin && (
+            <div className="card">
+              <div className="card-header">
+                <div className="card-title">Apply Now</div>
+              </div>
+              <div className="card-content">
+                <p className="apply-description">
+                  Ready to finance your vehicle? Start your application process today.
+                </p>
+                <Button className="btn-apply" onClick={handleStartApplication}>Start Application</Button>
+                {showLoanForm && (
+                  <div className="application-form">
+                    <LoanApplicationForm
+                      loanProductId={3333}
+                      onSubmit={handleLoanApplicationSubmit}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="card-content">
-              <p className="apply-description">
-                Ready to finance your vehicle? Start your application process today.
-              </p>
-              <Button className="btn-full" onClick={handleStartApplication}>
-                Start Application
-              </Button>
-              {showLoanForm && (
-                <div className="application-form">
-                  <LoanApplicationForm
-                    loanProductId={3333}
-                    onSubmit={handleLoanApplicationSubmit}
-                  />
-                </div>
-              )}
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

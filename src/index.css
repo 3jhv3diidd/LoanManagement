@@ -2,9 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+
 
 @layer base {
   :root {
@@ -120,3 +118,5 @@ All colors MUST be HSL.
   display: flex;
   flex-direction: column;
 }
+
+/* Removed styles for .admin-bank-section, .bank-stats-grid, .bank-stat-card, .bank-about, etc. as they are now in AdminBankOverview.css */

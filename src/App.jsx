@@ -7,6 +7,7 @@ import NotFound from "./pages/NotFound";
 import HomeLoans from "./pages/HomeLoans.jsx";
 import Kyc from "./pages/KycApplication.jsx";
 import LoanCalculator from "@/components/LoanCalculator.jsx";
+import AllCustomers from "./pages/AllCustomers.jsx";
 
 import VehicleLoans from "./pages/VehicleLoans.jsx";
 import PersonalLoans from "./pages/PersonalLoans.jsx";
@@ -39,6 +40,7 @@ const App = function() {
             <Route path="/business-loans/calculator" element={<BusinessLoans />} />
             <Route path="/applied-loans" element={<AppliedLoans />} />
             <Route path="/approve-kyc" element={<KycApplication />} />
+            <Route path="/all-customers" element={<AllCustomers />} />
             {/* <Route path="/loan-repayment" element={<LoanRepayment />} /> */}
             
             <Route path="*" element={<NotFound />} />

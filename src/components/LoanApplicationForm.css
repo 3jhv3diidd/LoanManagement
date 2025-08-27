@@ -84,3 +84,31 @@
   color: #374151;
   font-size: 1rem;
 }
+.back-home {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  z-index: 10;
+  background: #1d4ed8;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(30,64,175,0.08);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.back-home:hover {
+  background: #2563eb;
+}
+.user-dashboard {
+  position: relative;
+}
+.applied-loans-page {
+  position: relative;
+}
+.kyc-app-page {
+  position: relative;
+}

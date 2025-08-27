@@ -39,6 +39,7 @@ const Login = () => {
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
             {/* Logo and title can be added here if needed */}
           </div>
+          <button className="kyc-button back-home" type="button" onClick={() => navigate("/")}>Back to Home</button>
           <div className="login-title">Welcome Back</div>
           <div className="login-description">Sign in to your account to continue</div>
         </div>
