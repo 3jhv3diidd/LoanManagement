@@ -173,8 +173,30 @@ const UserPro = () => {
       const error = validateField(field, formData[field]);
       if (error) newErrors[field] = error;
     });
+    // Custom validation for email and name
+    if (formData.email !== user.email) {
+      newErrors.email = "Email must match your login email.";
+    }
+    if (formData.name !== user.username) {
+      newErrors.name = "Name must match your username.";
+    }
     setErrors(newErrors);
-    if (Object.keys(newErrors).length > 0) return;
+    if (Object.keys(newErrors).length > 0) {
+      // Show toast for custom validation errors (email, name, panNumber)
+      const errorMessages = [];
+      if (newErrors.email) errorMessages.push(newErrors.email);
+      if (newErrors.name) errorMessages.push(newErrors.name);
+      if (newErrors.panNumber) errorMessages.push(newErrors.panNumber);
+      if (errorMessages.length > 0) {
+        if (window.toast && window.toast.error) {
+          window.toast.error(errorMessages.join(' '));
+        } else {
+          // fallback: show all errors in a single alert
+          alert(errorMessages.join(' '));
+        }
+      }
+      return;
+    }
     try {
       console.log('Submitted email:', formData.email); // Ensure email is printed
       const response = await axios.post("http://localhost:8080/api/customers/register", {
@@ -312,7 +334,7 @@ const UserPro = () => {
                   value={formData.name}
                   onChange={handleProfileInputChange}
                   required
-                  readOnly
+                
                 />
                 {/* {errors.name && <span className="error-message">{errors.name}</span>} */}
               </div>
@@ -327,9 +349,9 @@ const UserPro = () => {
                   value={formData.email}
                   onChange={handleProfileInputChange}
                   required
-                  readOnly
+                  
                 />
-                {errors.email && <span className="error-message">{errors.email}</span>}
+                {/* {errors.email && <span className="error-message">{errors.email}</span>} */}
               </div>
               <div className="info-row">
                 <span className="info-label">Phone:</span>
@@ -341,7 +363,7 @@ const UserPro = () => {
                   onChange={handleProfileInputChange}
                   required
                 />
-                {errors.phone && <span className="error-message">{errors.phone}</span>}
+                {/* {errors.phone && <span className="error-message">{errors.phone}</span>} */}
               </div>
               <div className="info-row">
                 <span className="info-label">Username:</span>
@@ -352,7 +374,6 @@ const UserPro = () => {
                   value={formData.username}
                   onChange={handleProfileInputChange}
                   required
-                  readOnly
                 />
               </div>
               <div className="info-row">
