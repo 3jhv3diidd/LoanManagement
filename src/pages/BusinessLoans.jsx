@@ -97,7 +97,7 @@ const BusinessLoans = () => {
               </div>
               <div className="card-content">
                 <ul className="features-list">
-                  <li><CheckCircle className="icon-feature" />Interest rates starting from 4.49% APR</li>
+                  <li><CheckCircle className="icon-feature" />Interest rates starting from 10.50% APR</li>
                   <li><CheckCircle className="icon-feature" />Loan amount up to ₹5 Crores</li>
                   <li><CheckCircle className="icon-feature" />Loan tenure up to 10 years</li>
                   <li><CheckCircle className="icon-feature" />SBA loans available</li>

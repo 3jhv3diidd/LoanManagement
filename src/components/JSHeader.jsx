@@ -1,5 +1,5 @@
 import { Shield, Phone, Mail, Search } from "lucide-react";
-import userLogo from "@/../public/user_logo.svg";
+import userLogo from "../assets/user_logo.svg";
 
 import {
   Command,

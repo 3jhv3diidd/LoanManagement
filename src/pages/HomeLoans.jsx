@@ -102,7 +102,7 @@ const HomeLoans = () => {
               <div className="card-content">
                 <div className="features-list">
                   {[
-                    "Interest rates starting from 2.99% APR",
+                    "Interest rates starting from 7.99% APR",
                     "Loan amount up to ₹5 Crores",
                     "Loan tenure up to 30 years",
                     "No prepayment charges after 1 year",

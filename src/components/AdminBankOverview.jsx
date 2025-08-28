@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./AdminBankOverview.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import userLogo from "../assets/user_logo.svg";
 
 const AdminBankOverview = () => {
   const [customerCount, setCustomerCount] = useState(0);
@@ -46,7 +47,7 @@ const AdminBankOverview = () => {
           </button>
         </div>
         <div className="bank-stat-card">
-          <div className="stat-icon"><img src="/user_logo.svg" alt="Loans" style={{width:32, height:32}} /></div>
+          <div className="stat-icon"><img src={userLogo} alt="Loans" style={{width:32, height:32}} /></div>
           <div className="stat-title" >Total Loans</div>
           <div className="stat-value">{loanCount}</div>
           <button className="stat-action-btn" onClick={() => navigate('/applied-loans')}>

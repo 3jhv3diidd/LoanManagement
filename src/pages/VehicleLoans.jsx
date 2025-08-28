@@ -104,7 +104,7 @@ const VehicleLoans = () => {
               <div className="card-content">
                 <div className="features-list">
                   {[
-                    "Interest rates starting from 3.49% APR",
+                    "Interest rates starting from 8.70% APR",
                     "Loan amount up to ₹1 Crore",
                     "Loan tenure up to 7 years",
                     "Up to 95% vehicle funding",

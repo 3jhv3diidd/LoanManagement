@@ -15,6 +15,7 @@ import UserPro from "./pages/UserPro.jsx";
 import BusinessLoans from "./pages/BusinessLoans.jsx";
 import AppliedLoans from "./pages/AppliedLoans.jsx";
 import KycApplication from "./pages/KycApplication.jsx";
+import ForgotPassword from "./pages/ForgotPassword.jsx";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ const App = function() {
             <Route path="/applied-loans" element={<AppliedLoans />} />
             <Route path="/approve-kyc" element={<KycApplication />} />
             <Route path="/all-customers" element={<AllCustomers />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             {/* <Route path="/loan-repayment" element={<LoanRepayment />} /> */}
             
             <Route path="*" element={<NotFound />} />

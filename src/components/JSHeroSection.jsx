@@ -121,10 +121,9 @@ const JSHeroSection = () => {
               </span>
             </h1>
             <p className="hero-desc">
-              Choose our advanced loan banking system for unmatched financial solutions. With over 25 years of excellence, 
-              we offer the lowest interest rates in the market, instant digital approvals in under 60 seconds, and 
-              flexible repayment options tailored to your lifestyle. Our AI-powered credit assessment ensures fair 
-              evaluation, while our 24/7 customer support guarantees you're never alone in your financial journey.
+              Our Bank Loan Management System is a smart solution designed to simplify loan operations for banks
+and financial institutions. It enables seamless loan application, approval, disbursement — all in one platform. Customers can easily manage their loans through an intuitive interface. The system helps reduce manual errors and speeds up decision-making for better financial outcomes
+ 
             </p>
             <div className="hero-features">
               <h3 className="hero-features-title">Why Choose Our Loan Banking System?</h3>

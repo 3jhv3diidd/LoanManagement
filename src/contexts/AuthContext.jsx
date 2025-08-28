@@ -75,7 +75,7 @@ export const AuthProvider = ({ children }) => {
       } catch (err) {
         // Optionally handle error, e.g. log or ignore
       }
-      alert("login successful!");
+      // alert("login successful!");
       return { success: true };
     }
 
@@ -96,7 +96,7 @@ export const AuthProvider = ({ children }) => {
       return { success: true, isAdmin: true };
     }
 
-    alert("Invalid credentials. Please check your email and password.");
+    // setErrors("Invalid credentials. Please check your email and password.");
     return { success: false, message: "Invalid credentials" };
   } catch (error) {
     console.error("Login error:", error);

@@ -105,7 +105,7 @@ const PersonalLoans = () => {
               </div>
               <div className="card-content">
                 <div className="features-list">
-                  {["Interest rates starting from 5.99% APR","Loan amount up to ₹50 Lakhs","Loan tenure up to 5 years","No collateral required","Same-day approval","Instant disbursal","Flexible repayment options","No prepayment charges"].map((feature, index) => (
+                  {["Interest rates starting from 9.95% APR","Loan amount up to ₹50 Lakhs","Loan tenure up to 5 years","No collateral required","Same-day approval","Instant disbursal","Flexible repayment options","No prepayment charges"].map((feature, index) => (
                     <div key={index} className="feature-row">
                       <CheckCircle className="icon-check" />
                       <span className="feature-text">{feature}</span>

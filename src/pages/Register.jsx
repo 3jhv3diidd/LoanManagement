@@ -19,7 +19,8 @@ const Register = () => {
     email: "",
     phone: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    favouriteSport: ""
   });
 
   const handleInputChange = (field, value) => {
@@ -72,6 +73,7 @@ const handleSubmit = async (e) => {
       email: formData.email,
       phone: formData.phone,
       password: formData.password,
+      favouriteSport: formData.favouriteSport,
     });
 
     if (response.status === 200) {
@@ -106,13 +108,13 @@ const handleSubmit = async (e) => {
           <form onSubmit={handleSubmit} className="register-form">
             <div className="form-row">
               <div className="form-group">
-                <label htmlFor="firstName">First Name</label>
+                <label htmlFor="firstName">Full Name</label>
                 <div className="input-wrapper">
                   {/* <User className="icon" /> */}
                   <input
                     id="firstName"
                     type="text"
-                    placeholder="First name"
+                    placeholder="Full name"
                     value={formData.username}
                     onChange={e => handleInputChange('username', e.target.value)}
                     required
@@ -158,6 +160,19 @@ const handleSubmit = async (e) => {
                   placeholder="Enter your phone number"
                   value={formData.phone}
                   onChange={e => handleInputChange('phone', e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+            <div className="form-group">
+              <label htmlFor="favouriteSport">Favourite Sport</label>
+              <div className="input-wrapper">
+                <input
+                  id="favouriteSport"
+                  type="text"
+                  placeholder="Enter your favourite sport"
+                  value={formData.favouriteSport}
+                  onChange={e => handleInputChange('favouriteSport', e.target.value)}
                   required
                 />
               </div>

@@ -65,6 +65,11 @@ const LoanApplicationForm = ({ onSubmit, loanProductId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (parseFloat(form.loan_amount) <= 0 || isNaN(parseFloat(form.loan_amount))) {
+      alert("Enter valid loan amount");
+      return;
+    }
+
     const payload = {
       ...form,
       loan_amount: parseFloat(form.loan_amount), // 👈 Convert string to decimal
@@ -129,6 +134,7 @@ const LoanApplicationForm = ({ onSubmit, loanProductId }) => {
           name="customer_id"
           value={form.customerId}
           onChange={handleChange}
+          readOnly
           required
         />
       </div>
@@ -138,7 +144,7 @@ const LoanApplicationForm = ({ onSubmit, loanProductId }) => {
           type="text"
           name="loan_product_id"
           value={form.loan_product_id}
-          onChange={handleChange}
+          readOnly // 👈 Make this field read-only
           required
         />
       </div>

@@ -74,7 +74,7 @@ const Login = () => {
               </div>
             </div>
             <div className="forgot-link">
-              <Link to="/forgot-password">Forgot password?</Link>
+              <Link to="/forgot-password" state={{ email: formData.username }}>Forgot password?</Link>
             </div>
             <button type="submit" className="submit-btn">Sign In</button>
             <div className="register-link">

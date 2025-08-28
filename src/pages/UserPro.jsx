@@ -19,6 +19,7 @@ const UserPro = () => {
     kycStatus: "pending",
     panNumber: "",
     aadharNumber: "",
+    age: ""
   });
   const [activeLoans, setActiveLoans] = useState([]);
 
@@ -108,6 +109,7 @@ const UserPro = () => {
         kycStatus: customer.kycStatus ? customer.kycStatus.toLowerCase() : 'pending',
         panNumber: customer.panNumber || '',
         aadharNumber: customer.aadharNumber || '',
+        age: customer.age || ''
       });
     } else {
       setFormData({
@@ -115,9 +117,10 @@ const UserPro = () => {
         email: '',
         phone: '',
         username: '',
-        address: 'pending',
+        address: '',
         panNumber: '',
         aadharNumber: '',
+        age: ''
       });
     }
     setShowProfileForm(true);
@@ -131,8 +134,38 @@ const UserPro = () => {
     }));
   };
 
+  // PAN and Aadhaar validation helpers
+  const validatePanNumber = (pan) => {
+    // PAN: 5 letters, 4 digits, 1 letter (total 10 chars)
+    return /^[A-Z]{5}[0-9]{4}[A-Z]$/i.test(pan);
+  };
+  const validateAadharNumber = (aadhar) => {
+    // Aadhaar: 12 digits only
+    return /^\d{12}$/.test(aadhar);
+  };
+
+  const validateAge = (age) => {
+    // Age: only 2 digits, numbers only, and must be > 17
+    return /^\d{2}$/.test(age) && Number(age) > 20;
+  };
+
   const handleProfileSubmit = async (e) => {
     e.preventDefault();
+    // Age validation
+    if (!validateAge(formData.age)) {
+      alert("Invalid Age. Please enter a valid two-digit age greater than 20 (e.g., 21, 25, 99)");
+      return;
+    }
+    // PAN validation
+    if (!validatePanNumber(formData.panNumber)) {
+      alert("Invalid PAN Number. Format: 5 letters, 4 digits, 1 letter (e.g., ABCDE1234F)");
+      return;
+    }
+    // Aadhaar validation
+    if (!validateAadharNumber(formData.aadharNumber)) {
+      alert("Invalid Aadhaar Number. It should be exactly 12 digits.");
+      return;
+    }
     try {
       console.log('Submitted email:', formData.email); // Ensure email is printed
       const response = await axios.post("http://localhost:8080/api/customers/register", {
@@ -178,10 +211,7 @@ const UserPro = () => {
               <span className="info-label">Email:</span>
               <span className="info-value">{user.email}</span>
             </div>
-            <div className="info-row">
-              <span className="info-label">Phone:</span>
-              <span className="info-value">{user.phone}</span>
-            </div>
+            
           </div>
         </div>
       </section>
@@ -242,10 +272,8 @@ const UserPro = () => {
           <h2 className="section-title">Personal Information</h2>
           <form className="profile-card" onSubmit={handleProfileSubmit}>
             <div className="profile-header">
-              <div className="profile-avatar-wrapper" style={{ position: 'relative' }}>
+              {/* <div className="profile-avatar-wrapper" style={{ position: 'relative' }}>
                 <div className="profile-avatar">
-                  {formData.name?.charAt(0) || "U"}
-                  {/* Show red dot only if formData.kycStatus is pending */}
                   {formData.kycStatus?.toLowerCase() === 'pending' && (
                     <span
                       className="avatar-red-dot"
@@ -266,7 +294,7 @@ const UserPro = () => {
                     ></span>
                   )}
                 </div>
-              </div>
+              </div> */}
               <div className="profile-name">
                 <input
                   type="text"
@@ -287,6 +315,7 @@ const UserPro = () => {
                   placeholder="Email"
                   value={formData.email}
                   onChange={handleProfileInputChange}
+                
                   required
                 />
               </div>
@@ -298,6 +327,7 @@ const UserPro = () => {
                   placeholder="Phone"
                   value={formData.phone}
                   onChange={handleProfileInputChange}
+                 
                   required
                 />
               </div>
@@ -346,12 +376,25 @@ const UserPro = () => {
                 />
               </div>
               <div className="info-row">
+                <span className="info-label">Age:</span>
+                <input
+                  type="text"
+                  name="age"
+                  placeholder="Age"
+                  value={formData.age}
+                  onChange={handleProfileInputChange}
+                  required
+                  pattern="\d{2}"
+                  maxLength={2}
+                  inputMode="numeric"
+                />
+              </div>
+              <div className="info-row">
                 <span className="info-label">KYC Status:</span>
                 <input
                   type="text"
                   name="kycStatus"
                   value="Not Completed"
-                  readOnly
                   className="info-value"
                 />
               </div>
