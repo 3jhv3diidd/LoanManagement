@@ -15,7 +15,7 @@ const JSLoanTypes = () => {
       description: "Competitive rates for your dream home",
       rate: "7.99%",
       features: ["No down payment options", "First-time buyer programs", "Refinancing available"],
-      buttonText: "Get Home Loan",
+      buttonText: "Home Loan",
       id: "home",
       route: "/home-loans"
     },
@@ -25,7 +25,7 @@ const JSLoanTypes = () => {
       description: "Finance your next vehicle with ease",
       rate: "8.70%",
       features: ["New & used cars", "Quick approval", "Flexible terms"],
-      buttonText: "Get Vehicle Loan",
+      buttonText: "Vehicle Loan",
       id: "vehicle",
       route: "/vehicle-loans"
     },
@@ -35,7 +35,7 @@ const JSLoanTypes = () => {
       description: "Unsecured loans loans for any purpose", 
       rate: "9.95%",
       features: ["No collateral required", "Same-day funding", "Fixed monthly payments"],
-      buttonText: "Get Personal Loan",
+      buttonText: "Personal Loan",
       id: "personal",
       route: "/personal-loans"
     },
@@ -45,7 +45,7 @@ const JSLoanTypes = () => {
       description: "Grow your business with our capital",
       rate: "10.50%", 
       features: ["SBA loans available", "Equipment financing", "Working capital"],
-      buttonText: "Get Business Loan",
+      buttonText: "Business Loan",
       id: "business",
       route: "/business-loans"
     }

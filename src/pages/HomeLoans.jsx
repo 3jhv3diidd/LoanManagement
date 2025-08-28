@@ -133,6 +133,7 @@ const HomeLoans = () => {
                   <div className="application-form">
                     <LoanApplicationForm
                       loanProductId={1111}
+                      loanIntrest={7.99}
                       onSubmit={handleLoanApplicationSubmit}
                     />
                   </div>

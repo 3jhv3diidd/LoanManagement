@@ -133,7 +133,6 @@ const KycApplication = () => {
       setKycApplications(location.state.customers);
       setLoading(false);
     } else {
-      // Fetch all customers from backend
       axios.get("http://localhost:8080/api/customers/pending-kyc")
         .then(res => {
           setKycApplications(res.data);

@@ -1,9 +1,9 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import "./LoanApplicationForm.css";
 
-const LoanApplicationForm = ({ onSubmit, loanProductId }) => {
+const LoanApplicationForm = ({ onSubmit, loanProductId, loanIntrest }) => {
   // Extract customerId and customer data from localStorage before useState
   let customerId = '';
   let customerData = null;
@@ -47,15 +47,40 @@ const LoanApplicationForm = ({ onSubmit, loanProductId }) => {
     );
   }
 
+  const initialLoanIntrest = typeof loanIntrest === "number" ? loanIntrest.toString() : (loanIntrest || "8.5");
   const [form, setForm] = useState({
     application_date: new Date().toISOString().slice(0, 10),
     approval_Status: "PENDING",
     loan_amount: "",
+    loanIntrest: initialLoanIntrest,
+    tenure: "",
+    monthlyEmi: "",
     customerId: customerId,
     loan_product_id: loanProductId || "",
   });
 
+  // Update loanIntrest in form state if prop changes
+  useEffect(() => {
+    if (typeof loanIntrest !== "undefined") {
+      setForm((prev) => ({ ...prev, loanIntrest: loanIntrest.toString() }));
+    }
+  }, [loanIntrest]);
+
   const [showSuccess, setShowSuccess] = useState(false);
+
+  // Calculate EMI whenever loan_amount, tenure, or loanIntrest changes
+  useEffect(() => {
+    const P = parseFloat(form.loan_amount);
+    const years = parseFloat(form.tenure);
+    const N = years > 0 ? years * 12 : 0; // Convert years to months
+    const R = parseFloat(form.loanIntrest) / 12 / 100;
+    if (P > 0 && N > 0 && R > 0) {
+      const emi = (P * R * Math.pow(1 + R, N)) / (Math.pow(1 + R, N) - 1);
+      setForm((prev) => ({ ...prev, monthlyEmi: emi ? emi.toFixed(2) : "" }));
+    } else {
+      setForm((prev) => ({ ...prev, monthlyEmi: "" }));
+    }
+  }, [form.loan_amount, form.tenure, form.loanIntrest]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -69,10 +94,17 @@ const LoanApplicationForm = ({ onSubmit, loanProductId }) => {
       alert("Enter valid loan amount");
       return;
     }
+    if (parseFloat(form.tenure) <= 0 || isNaN(parseFloat(form.tenure))) {
+      alert("Enter valid tenure in years");
+      return;
+    }
 
     const payload = {
       ...form,
-      loan_amount: parseFloat(form.loan_amount), // 👈 Convert string to decimal
+      loan_amount: parseFloat(form.loan_amount),
+      loanIntrest: parseFloat(form.loanIntrest),
+      tenure: parseFloat(form.tenure), // tenure in years
+      monthlyEmi: parseFloat(form.monthlyEmi),
     };
 
     try {
@@ -124,6 +156,36 @@ const LoanApplicationForm = ({ onSubmit, loanProductId }) => {
           name="loan_amount"
           value={form.loan_amount}
           onChange={handleChange}
+          required
+        />
+      </div>
+      <div>
+        <label>Loan Interest (%)</label>
+        <input
+          type="number"
+          name="loanIntrest"
+          value={form.loanIntrest}
+          readOnly
+          required
+        />
+      </div>
+      <div>
+        <label>Tenure (years)</label>
+        <input
+          type="number"
+          name="tenure"
+          value={form.tenure}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div>
+        <label>Monthly EMI</label>
+        <input
+          type="number"
+          name="monthlyEmi"
+          value={form.monthlyEmi}
+          readOnly
           required
         />
       </div>

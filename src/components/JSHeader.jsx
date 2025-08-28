@@ -220,7 +220,7 @@ const JSHeader = () => {
                       <User className="header-dropdown-icon" />
                       <span>Profile</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="header-dropdown-item">
+                    <DropdownMenuItem className="header-dropdown-item" onClick={() => navigate('/repayment')}>
                       <CreditCard className="header-dropdown-icon" />
                       <span>Loan Repayment</span>
                     </DropdownMenuItem>

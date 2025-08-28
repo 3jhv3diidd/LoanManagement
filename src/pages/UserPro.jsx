@@ -22,6 +22,7 @@ const UserPro = () => {
     age: ""
   });
   const [activeLoans, setActiveLoans] = useState([]);
+  const [errors, setErrors] = useState({});
 
   // Get basic info from localStorage
   const localUser = {
@@ -126,46 +127,54 @@ const UserPro = () => {
     setShowProfileForm(true);
   };
 
+  const validateField = (field, value) => {
+    switch (field) {
+      case "age":
+        if (!/^\d{2}$/.test(value) || Number(value) <= 20) return "Enter a valid two-digit age greater than 20.";
+        break;
+      case "panNumber":
+        if (!/^[A-Z]{5}[0-9]{4}[A-Z]$/i.test(value)) return "Invalid PAN. Format: 5 letters, 4 digits, 1 letter.";
+        break;
+      case "aadharNumber":
+        if (!/^\d{12}$/.test(value)) return "Aadhaar must be exactly 12 digits.";
+        break;
+      case "email":
+        if (!/^.+@.+\..+$/.test(value)) return "Enter a valid email address.";
+        break;
+      case "phone":
+        if (!/^[6-9][0-9]{9}$/.test(value)) return "Enter a valid phone number starting with 6-9 and 10 digits long.";
+        break;
+      case "name":
+        if (!/^[A-Za-z\s]+$/.test(value)) return "Name should contain only letters and spaces.";
+        break;
+      default:
+        return "";
+    }
+    return "";
+  };
+
   const handleProfileInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-  };
-
-  // PAN and Aadhaar validation helpers
-  const validatePanNumber = (pan) => {
-    // PAN: 5 letters, 4 digits, 1 letter (total 10 chars)
-    return /^[A-Z]{5}[0-9]{4}[A-Z]$/i.test(pan);
-  };
-  const validateAadharNumber = (aadhar) => {
-    // Aadhaar: 12 digits only
-    return /^\d{12}$/.test(aadhar);
-  };
-
-  const validateAge = (age) => {
-    // Age: only 2 digits, numbers only, and must be > 17
-    return /^\d{2}$/.test(age) && Number(age) > 20;
+    setErrors((prev) => ({
+      ...prev,
+      [name]: validateField(name, value)
+    }));
   };
 
   const handleProfileSubmit = async (e) => {
     e.preventDefault();
-    // Age validation
-    if (!validateAge(formData.age)) {
-      alert("Invalid Age. Please enter a valid two-digit age greater than 20 (e.g., 21, 25, 99)");
-      return;
-    }
-    // PAN validation
-    if (!validatePanNumber(formData.panNumber)) {
-      alert("Invalid PAN Number. Format: 5 letters, 4 digits, 1 letter (e.g., ABCDE1234F)");
-      return;
-    }
-    // Aadhaar validation
-    if (!validateAadharNumber(formData.aadharNumber)) {
-      alert("Invalid Aadhaar Number. It should be exactly 12 digits.");
-      return;
-    }
+    // Validate all fields before submit
+    const newErrors = {};
+    Object.keys(formData).forEach(field => {
+      const error = validateField(field, formData[field]);
+      if (error) newErrors[field] = error;
+    });
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) return;
     try {
       console.log('Submitted email:', formData.email); // Ensure email is printed
       const response = await axios.post("http://localhost:8080/api/customers/register", {
@@ -303,7 +312,9 @@ const UserPro = () => {
                   value={formData.name}
                   onChange={handleProfileInputChange}
                   required
+                  readOnly
                 />
+                {/* {errors.name && <span className="error-message">{errors.name}</span>} */}
               </div>
             </div>
             <div className="profile-details">
@@ -315,9 +326,10 @@ const UserPro = () => {
                   placeholder="Email"
                   value={formData.email}
                   onChange={handleProfileInputChange}
-                
                   required
+                  readOnly
                 />
+                {errors.email && <span className="error-message">{errors.email}</span>}
               </div>
               <div className="info-row">
                 <span className="info-label">Phone:</span>
@@ -327,9 +339,9 @@ const UserPro = () => {
                   placeholder="Phone"
                   value={formData.phone}
                   onChange={handleProfileInputChange}
-                 
                   required
                 />
+                {errors.phone && <span className="error-message">{errors.phone}</span>}
               </div>
               <div className="info-row">
                 <span className="info-label">Username:</span>
@@ -340,6 +352,7 @@ const UserPro = () => {
                   value={formData.username}
                   onChange={handleProfileInputChange}
                   required
+                  readOnly
                 />
               </div>
               <div className="info-row">
@@ -353,8 +366,8 @@ const UserPro = () => {
                   required
                 />
               </div>
-              <div className="info-row">
-                <span className="info-label">PAN Number:</span>
+              <div class="info-row">
+                <span class="info-label">PAN Number:</span>
                 <input
                   type="text"
                   name="panNumber"
@@ -363,9 +376,10 @@ const UserPro = () => {
                   onChange={handleProfileInputChange}
                   required
                 />
+                {errors.panNumber && <span class="error-message">{errors.panNumber}</span>}
               </div>
-              <div className="info-row">
-                <span className="info-label">Aadhar Number:</span>
+              <div class="info-row">
+                <span class="info-label">Aadhar Number:</span>
                 <input
                   type="text"
                   name="aadharNumber"
@@ -374,9 +388,10 @@ const UserPro = () => {
                   onChange={handleProfileInputChange}
                   required
                 />
+                {errors.aadharNumber && <span class="error-message">{errors.aadharNumber}</span>}
               </div>
-              <div className="info-row">
-                <span className="info-label">Age:</span>
+              <div class="info-row">
+                <span class="info-label">Age:</span>
                 <input
                   type="text"
                   name="age"
@@ -388,6 +403,7 @@ const UserPro = () => {
                   maxLength={2}
                   inputMode="numeric"
                 />
+                {errors.age && <span class="error-message">{errors.age}</span>}
               </div>
               <div className="info-row">
                 <span className="info-label">KYC Status:</span>
@@ -396,6 +412,7 @@ const UserPro = () => {
                   name="kycStatus"
                   value="Not Completed"
                   className="info-value"
+                  readOnly
                 />
               </div>
             </div>
@@ -422,8 +439,10 @@ const UserPro = () => {
                     <span className={`loan-status ${loan.status || loan.approval_Status}`}>{loan.status || loan.approval_Status}</span>
                   </div>
                   <div className="loan-details">
-                    <div><strong>Amount:</strong> <span className="loan-amount">₹{loan.loan_amount}</span></div>
+                    <div><strong>Amount:</strong> <span className="">₹{loan.loan_amount}</span></div>
                     <div><strong>Start Date:</strong> <span className="loan-date">{loan.startDate || loan.application_date}</span></div>
+                    <div><strong>Monthly EMI:</strong> <span className="">₹{loan.monthlyEmi || '-'}</span></div>
+                    <div><strong>Tenure:</strong> <span className="">{loan.tenure ? `${loan.tenure} years` : '-'}</span></div>
                   </div>
                 </li>
               ))}

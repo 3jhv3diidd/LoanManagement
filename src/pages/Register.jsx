@@ -23,75 +23,117 @@ const Register = () => {
     favouriteSport: ""
   });
 
+  const [errors, setErrors] = useState({});
+
+  const validateField = (field, value) => {
+    const emailPattern = /^[^\s@]+@gmail\.com$/;
+    const phonePattern = /^[6-9][0-9]{9}$/;
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}:;'<>.,?\-]).+$/;
+    const namePattern = /^[A-Za-z\s]+$/;
+
+    switch (field) {
+      case "username":
+        if (!namePattern.test(value)) return "Full name should contain only letters and spaces.";
+        break;
+      case "email":
+        if (!emailPattern.test(value)) return "Enter a valid Gmail address.";
+        break;
+      case "phone":
+        if (!phonePattern.test(value)) return "Enter a valid phone number starting with 6-9 and 10 digits long.";
+        break;
+      case "password":
+        if (!passwordPattern.test(value)) return "Password must contain at least 1 uppercase, 1 lowercase, 1 number, and 1 special character.";
+        break;
+      case "confirmPassword":
+        if (value !== formData.password) return "Passwords don't match!";
+        break;
+      case "favouriteSport":
+        if (!value.trim()) return "Favourite sport is required.";
+        break;
+      default:
+        return "";
+    }
+    return "";
+  };
+
   const handleInputChange = (field, value) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
+    setErrors(prev => ({
+      ...prev,
+      [field]: validateField(field, value)
+    }));
+    // For confirmPassword, check instantly against password
+    if (field === "password" && formData.confirmPassword) {
+      setErrors(prev => ({
+        ...prev,
+        confirmPassword: validateField("confirmPassword", formData.confirmPassword)
+      }));
+    }
   };
 
-const { login } = useAuth(); // Add this inside your component
+  const { login } = useAuth(); // Add this inside your component
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const emailPattern = /^[^\s@]+@gmail\.com$/;
-  const phonePattern = /^[6-9][0-9]{9}$/;
-  const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}:;'<>.,?\-]).+$/;
-  const namePattern = /^[A-Za-z\s]+$/;
+    const emailPattern = /^[^\s@]+@gmail\.com$/;
+    const phonePattern = /^[6-9][0-9]{9}$/;
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}:;'<>.,?\-]).+$/;
+    const namePattern = /^[A-Za-z\s]+$/;
 
-  if (!namePattern.test(formData.username)) {
-    alert("First name should contain only letters and spaces.");
-    return;
-  }
-
-  if (!emailPattern.test(formData.email)) {
-    alert("Enter a valid Gmail address.");
-    return;
-  }
-
-  if (!phonePattern.test(formData.phone)) {
-    alert("Enter a valid phone number starting with 6-9 and 10 digits long.");
-    return;
-  }
-
-  if (!passwordPattern.test(formData.password)) {
-    alert("Password must contain at least 1 uppercase, 1 lowercase, 1 number, and 1 special character.");
-    return;
-  }
-
-  if (formData.password !== formData.confirmPassword) {
-    alert("Passwords don't match!");
-    return;
-  }
-
-  try {
-    const response = await axios.post("http://localhost:8080/api/auth/signup", {
-      username: formData.username,
-      firstname: formData.firstname,
-      lastname: formData.lastname,
-      email: formData.email,
-      phone: formData.phone,
-      password: formData.password,
-      favouriteSport: formData.favouriteSport,
-    });
-
-    if (response.status === 200) {
-      const loginResult = await login(formData.email, formData.password);
-      if (loginResult.success) {
-        alert("Registration and login successful!");
-        navigate('/');
-      } else {
-        alert("Registered, but login failed.");
-      }
+    if (!namePattern.test(formData.username)) {
+      setErrors(prev => ({ ...prev, submit: "First name should contain only letters and spaces." }));
+      return;
     }
-  } catch (error) {
-    console.error("Registration error:", error);
-    alert(error.response?.data?.message || "Registration failed.");
-  }
-};
 
+    if (!emailPattern.test(formData.email)) {
+      setErrors(prev => ({ ...prev, submit: "Enter a valid Gmail address." }));
+      return;
+    }
 
+    if (!phonePattern.test(formData.phone)) {
+      setErrors(prev => ({ ...prev, submit: "Enter a valid phone number starting with 6-9 and 10 digits long." }));
+      return;
+    }
+
+    if (!passwordPattern.test(formData.password)) {
+      setErrors(prev => ({ ...prev, submit: "Password must contain at least 1 uppercase, 1 lowercase, 1 number, and 1 special character." }));
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setErrors(prev => ({ ...prev, submit: "Passwords don't match!" }));
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:8080/api/auth/signup", {
+        username: formData.username,
+        firstname: formData.firstname,
+        lastname: formData.lastname,
+        email: formData.email,
+        phone: formData.phone,
+        password: formData.password,
+        favouriteSport: formData.favouriteSport,
+      });
+
+      if (response.status === 200) {
+        const loginResult = await login(formData.email, formData.password);
+        if (loginResult.success) {
+          alert("Registration and login successful!");
+          navigate('/');
+        } else {
+          alert("Registered, but login failed.");
+        }
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+      setErrors(prev => ({ ...prev, submit: error.response?.data?.message || "Registration failed." }));
+    }
+  };
 
   return (
     <div className="register-root">
@@ -100,7 +142,7 @@ const handleSubmit = async (e) => {
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
             {/* Logo and title can be added here if needed */}
           </div>
-          <button className="kyc-button back-home" type="button" onClick={() => navigate("/")}>Back to Home</button>
+          <button className="kyc-button back-home" type="button" onClick={() => navigate("/")}>Back</button>
           <div className="register-title">Create Account</div>
           <div className="register-description">Join us to start your loan journey</div>
         </div>
@@ -110,7 +152,6 @@ const handleSubmit = async (e) => {
               <div className="form-group">
                 <label htmlFor="firstName">Full Name</label>
                 <div className="input-wrapper">
-                  {/* <User className="icon" /> */}
                   <input
                     id="firstName"
                     type="text"
@@ -120,26 +161,12 @@ const handleSubmit = async (e) => {
                     required
                   />
                 </div>
+                {errors.username && <span className="error-message">{errors.username}</span>}
               </div>
-              {/* <div className="form-group">
-                <label htmlFor="lastName">Last Name</label>
-                <div className="input-wrapper">
-                 
-                  <input
-                    id="lastName"
-                    type="text"
-                    placeholder="Last name"
-                    value={formData.lastName}
-                    onChange={e => handleInputChange('lastName', e.target.value)}
-                    required
-                  />
-                </div> 
-              </div>*/}
             </div>
             <div className="form-group">
               <label htmlFor="email">Email Address</label>
               <div className="input-wrapper">
-                {/* <Mail className="icon" /> */}
                 <input
                   id="email"
                   type="email"
@@ -149,11 +176,11 @@ const handleSubmit = async (e) => {
                   required
                 />
               </div>
+              {errors.email && <span className="error-message">{errors.email}</span>}
             </div>
             <div className="form-group">
               <label htmlFor="phone">Phone Number</label>
               <div className="input-wrapper">
-                {/* <Phone className="icon" /> */}
                 <input
                   id="phone"
                   type="tel"
@@ -163,6 +190,7 @@ const handleSubmit = async (e) => {
                   required
                 />
               </div>
+              {errors.phone && <span className="error-message">{errors.phone}</span>}
             </div>
             <div className="form-group">
               <label htmlFor="favouriteSport">Favourite Sport</label>
@@ -176,11 +204,11 @@ const handleSubmit = async (e) => {
                   required
                 />
               </div>
+              {errors.favouriteSport && <span className="error-message">{errors.favouriteSport}</span>}
             </div>
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <div className="input-wrapper">
-                {/* <Lock className="icon" /> */}
                 <input
                   id="password"
                   type="password"
@@ -190,11 +218,11 @@ const handleSubmit = async (e) => {
                   required
                 />
               </div>
+              {errors.password && <span className="error-message">{errors.password}</span>}
             </div>
             <div className="form-group">
               <label htmlFor="confirmPassword">Confirm Password</label>
               <div className="input-wrapper">
-                {/* <Lock className="icon" /> */}
                 <input
                   id="confirmPassword"
                   type="password"
@@ -204,7 +232,9 @@ const handleSubmit = async (e) => {
                   required
                 />
               </div>
+              {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
             </div>
+            {errors.submit && <span className="error-message">{errors.submit}</span>}
             <button type="submit" className="submit-btn">Create Account</button>
             <div className="login-link">
               Already have an account?{' '}

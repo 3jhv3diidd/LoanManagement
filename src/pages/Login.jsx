@@ -12,11 +12,33 @@ const Login = () => {
     username: "",
     password: ""
   });
+  const [errors, setErrors] = useState({});
+
+  const validateField = (field, value) => {
+    const emailPattern = /^[^\s@]+@gmail\.com$/;
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}:;'<>.,?\-]).+$/;
+
+    switch (field) {
+      case "username":
+        if (!emailPattern.test(value)) return "Enter a valid Gmail address.";
+        break;
+      case "password":
+        if (!passwordPattern.test(value)) return "Password must contain at least 1 uppercase, 1 lowercase, 1 number, and 1 special character.";
+        break;
+      default:
+        return "";
+    }
+    return "";
+  };
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
+    }));
+    setErrors(prev => ({
+      ...prev,
+      [field]: validateField(field, value)
     }));
   };
 
@@ -39,7 +61,7 @@ const Login = () => {
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
             {/* Logo and title can be added here if needed */}
           </div>
-          <button className="kyc-button back-home" type="button" onClick={() => navigate("/")}>Back to Home</button>
+          <button className="kyc-button back-home" type="button" onClick={() => navigate("/")}>Back</button>
           <div className="login-title">Welcome Back</div>
           <div className="login-description">Sign in to your account to continue</div>
         </div>
@@ -58,6 +80,7 @@ const Login = () => {
                   required
                 />
               </div>
+              {errors.username && <span className="error-message">{errors.username}</span>}
             </div>
             <div className="form-group">
               <label htmlFor="password">Password</label>
@@ -72,6 +95,7 @@ const Login = () => {
                   required
                 />
               </div>
+              {errors.password && <span className="error-message">{errors.password}</span>}
             </div>
             <div className="forgot-link">
               <Link to="/forgot-password" state={{ email: formData.username }}>Forgot password?</Link>

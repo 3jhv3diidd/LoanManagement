@@ -32,7 +32,83 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const login = async (username, password) => {
+//   const login = async (username, password) => {
+//   // Frontend validation
+//   const emailPattern = /^[^\s@]+@gmail\.com$/;
+//   const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}:;'<>.,?\-]).+$/;
+
+//   if (!emailPattern.test(username)) {
+//     alert("Enter a valid Gmail address.");
+//     return { success: false, message: "Enter a valid Gmail address." };
+//   }
+
+//   if (!passwordPattern.test(password)) {
+//     alert("Password must contain at least 1 uppercase, 1 lowercase, 1 number, and 1 special character.");
+//     return {
+//       success: false,
+//       message:
+//         "Password must contain at least 1 uppercase, 1 lowercase, 1 number, and 1 special character.",
+//     };
+//   }
+
+//   try {
+//     // Attempt regular user login
+//     const response = await axios.post("http://localhost:8080/api/auth/signin", {
+//       email: username,
+//       password: password,
+//     });
+
+//     if (response.data && response.data.user) {
+//       const userData = { ...response.data.user };
+//       delete userData.password;
+//       setUser(userData);
+//       setIsAuthenticated(true);
+//       localStorage.setItem("user", JSON.stringify(userData));
+//       // Fetch and store customer data after successful login
+//       try {
+//         const customerRes = await axios.put("http://localhost:8080/api/customers/find", {
+//           email: userData.email,
+//         });
+//         if (customerRes.data && customerRes.data.email) {
+//           localStorage.setItem('customer', JSON.stringify(customerRes.data));
+//         }
+//       } catch (err) {
+//         // Optionally handle error, e.g. log or ignore
+//       }
+//       // alert("login successful!");
+//       return { success: true };
+//     }
+
+//     // Attempt admin login
+//     const adminResponse = await axios.post("http://localhost:8080/api/auth/admin/adminsignin", {
+//       email: username,
+//       password: password,
+//     });
+
+//     const adminData = adminResponse.data.admin;
+//     if (adminResponse.data && adminData) {
+//       delete adminData.password;
+//       setUser(adminData);
+//       setIsAuthenticated(true);
+//       alert("Admin login successful!");
+//       localStorage.setItem("admin", JSON.stringify(adminData));
+      
+//       return { success: true, isAdmin: true };
+//     }
+
+//     // setErrors("Invalid credentials. Please check your email and password.");
+//     return { success: false, message: "Invalid credentials" };
+//   } catch (error) {
+//     console.error("Login error:", error);
+//     alert(error.response?.data?.message || "Login failed");
+//     return {
+//       success: false,
+//       message: error.response?.data?.message || "Login failed",
+//     };
+//   }
+// };
+
+const login = async (username, password) => {
   // Frontend validation
   const emailPattern = /^[^\s@]+@gmail\.com$/;
   const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}:;'<>.,?\-]).+$/;
@@ -46,58 +122,61 @@ export const AuthProvider = ({ children }) => {
     alert("Password must contain at least 1 uppercase, 1 lowercase, 1 number, and 1 special character.");
     return {
       success: false,
-      message:
-        "Password must contain at least 1 uppercase, 1 lowercase, 1 number, and 1 special character.",
+      message: "Password must contain at least 1 uppercase, 1 lowercase, 1 number, and 1 special character.",
     };
   }
 
   try {
-    // Attempt regular user login
+    // Attempt login
     const response = await axios.post("http://localhost:8080/api/auth/signin", {
       email: username,
       password: password,
     });
 
-    if (response.data && response.data.user) {
-      const userData = { ...response.data.user };
+    const data = response.data;
+
+    if (data.user) {
+      const userData = { ...data.user };
       delete userData.password;
+
       setUser(userData);
       setIsAuthenticated(true);
       localStorage.setItem("user", JSON.stringify(userData));
-      // Fetch and store customer data after successful login
+      localStorage.setItem("role", "USER");
+
+      // Fetch customer data only for users
       try {
         const customerRes = await axios.put("http://localhost:8080/api/customers/find", {
           email: userData.email,
         });
+
         if (customerRes.data && customerRes.data.email) {
-          localStorage.setItem('customer', JSON.stringify(customerRes.data));
+          localStorage.setItem("customer", JSON.stringify(customerRes.data));
         }
       } catch (err) {
-        // Optionally handle error, e.g. log or ignore
+        console.warn("Customer fetch failed:", err);
       }
-      // alert("login successful!");
-      return { success: true };
+
+      return { success: true, isAdmin: false };
     }
 
-    // Attempt admin login
-    const adminResponse = await axios.post("http://localhost:8080/api/auth/admin/adminsignin", {
-      email: username,
-      password: password,
-    });
-
-    const adminData = adminResponse.data.admin;
-    if (adminResponse.data && adminData) {
+    if (data.admin) {
+      const adminData = { ...data.admin };
       delete adminData.password;
+
       setUser(adminData);
       setIsAuthenticated(true);
-      alert("Admin login successful!");
       localStorage.setItem("admin", JSON.stringify(adminData));
-      
+      localStorage.setItem("role", "ADMIN");
+
+      alert("Admin login successful!");
       return { success: true, isAdmin: true };
     }
 
-    // setErrors("Invalid credentials. Please check your email and password.");
-    return { success: false, message: "Invalid credentials" };
+    // If neither user nor admin found
+    alert("Invalid login credentials.");
+    return { success: false, message: "Invalid login credentials." };
+
   } catch (error) {
     console.error("Login error:", error);
     alert(error.response?.data?.message || "Login failed");

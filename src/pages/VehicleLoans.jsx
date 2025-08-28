@@ -182,6 +182,7 @@ const VehicleLoans = () => {
                   <div className="application-form">
                     <LoanApplicationForm
                       loanProductId={3333}
+                      loanIntrest={8.70}
                       onSubmit={handleLoanApplicationSubmit}
                     />
                   </div>

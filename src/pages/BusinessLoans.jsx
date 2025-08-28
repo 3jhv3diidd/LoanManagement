@@ -155,6 +155,7 @@ const BusinessLoans = () => {
                   <div className="application-form">
                     <LoanApplicationForm
                       loanProductId={4444}
+                      loanIntrest={10.50}
                       onSubmit={handleLoanApplicationSubmit}
                     />
                   </div>
