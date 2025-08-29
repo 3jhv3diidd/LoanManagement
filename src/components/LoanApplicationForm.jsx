@@ -90,8 +90,9 @@ const LoanApplicationForm = ({ onSubmit, loanProductId, loanIntrest }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (parseFloat(form.loan_amount) <= 0 || isNaN(parseFloat(form.loan_amount))) {
-      alert("Enter valid loan amount");
+    const loanAmount = parseFloat(form.loan_amount);
+    if (loanAmount < 10000 || loanAmount > 100000000 || isNaN(loanAmount)) {
+      alert("Enter a valid loan amount between 10,000 and 100,000,000");
       return;
     }
     if (parseFloat(form.tenure) <= 0 || isNaN(parseFloat(form.tenure))) {
@@ -157,6 +158,8 @@ const LoanApplicationForm = ({ onSubmit, loanProductId, loanIntrest }) => {
           value={form.loan_amount}
           onChange={handleChange}
           required
+          min={10000}
+          max={100000000}
         />
       </div>
       <div>

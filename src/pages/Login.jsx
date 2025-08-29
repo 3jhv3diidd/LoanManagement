@@ -15,7 +15,7 @@ const Login = () => {
   const [errors, setErrors] = useState({});
 
   const validateField = (field, value) => {
-    const emailPattern = /^[^\s@]+@gmail\.com$/;
+    const emailPattern = /^[a-zA-Z0-9](\.?[a-zA-Z0-9_-]){2,29}@gmail\.com$/;
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}:;'<>.,?\-]).+$/;
 
     switch (field) {
@@ -23,7 +23,7 @@ const Login = () => {
         if (!emailPattern.test(value)) return "Enter a valid Gmail address.";
         break;
       case "password":
-        if (!passwordPattern.test(value)) return "Password must contain at least 1 uppercase, 1 lowercase, 1 number, and 1 special character.";
+        if (!passwordPattern.test(value)) return "Password must contain at least 1 uppercase, 1 lowercase, 1 number, 1 special character and min length should be 6.";
         break;
       default:
         return "";

@@ -175,10 +175,10 @@ const UserPro = () => {
     });
     // Custom validation for email and name
     if (formData.email !== user.email) {
-      newErrors.email = "Email must match your login email.";
+      newErrors.email = "Email must match your profile email.";
     }
     if (formData.name !== user.username) {
-      newErrors.name = "Name must match your username.";
+      newErrors.name = "Name must match your profile username.";
     }
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) {

@@ -48,6 +48,7 @@ const Register = () => {
         if (value !== formData.password) return "Passwords don't match!";
         break;
       case "favouriteSport":
+        if (!/^[A-Za-z\s]+$/.test(value)) return "Favourite sport should contain only letters and spaces.";
         if (!value.trim()) return "Favourite sport is required.";
         break;
       default:
@@ -79,13 +80,17 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const emailPattern = /^[^\s@]+@gmail\.com$/;
+    const emailPattern = /^[a-zA-Z0-9](\.?[a-zA-Z0-9_-]){2,29}@gmail\.com$/;
     const phonePattern = /^[6-9][0-9]{9}$/;
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}:;'<>.,?\-]).+$/;
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}:;'<>.,?\-]).{6,15}$/;
     const namePattern = /^[A-Za-z\s]+$/;
-
+    const sportPattern = /^[A-Za-z\s]+$/;
     if (!namePattern.test(formData.username)) {
       setErrors(prev => ({ ...prev, submit: "First name should contain only letters and spaces." }));
+      return;
+    }
+    if (!sportPattern.test(formData.favouriteSport)) {
+      setErrors(prev => ({ ...prev, submit: "favouriteSport name should contain only letters and spaces." }));
       return;
     }
 
@@ -100,7 +105,7 @@ const Register = () => {
     }
 
     if (!passwordPattern.test(formData.password)) {
-      setErrors(prev => ({ ...prev, submit: "Password must contain at least 1 uppercase, 1 lowercase, 1 number, and 1 special character." }));
+      setErrors(prev => ({ ...prev, submit: "Password must contain at least 1 uppercase, 1 lowercase, 1 number, 1 special character and min should be 6." }));
       return;
     }
 
